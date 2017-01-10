@@ -1,0 +1,71 @@
+# this is an example of the Uber API
+# as a demonstration of an API spec in YAML
+swagger: '2.0'
+info:
+  title: kiosk API
+  description: Move your app forward with the kiosk API
+  version: "1.0.0"
+# the domain of the service
+host: 7x5gf2qkxd.execute-api.ap-northeast-2.amazonaws.com
+# array of all schemes that your API supports
+schemes:
+  - https
+# will be prefixed to all paths
+basePath: /dev
+produces:
+  - application/json
+paths:
+  /test:
+    post:
+      summary: Test to kiosk server.
+      description: |
+        kiosk server에 api 테스트 수행한다.
+      parameters:
+        - in: body
+          name: test
+          description: api paramater test 
+          required: true
+          schema:
+            $ref: "#/definitions/Test"
+      tags:
+        - Test
+      responses:
+        200:
+          description: Result information
+          schema:
+              $ref: '#/definitions/Result'
+
+definitions:
+  Test:
+    type: object
+    properties:
+      userId:
+        type: string
+        description: 사용자아이디
+      password:
+        type: string
+        description: 비밀번호
+  Result:
+    type: object
+    properties:
+      success:
+        type: boolean
+        description: 성공여부
+      errorCode:
+        type: string
+        description: 에러 코드
+      message:
+        type: string
+        description: 메시지
+      data:
+          type: object
+          properties:
+            userKey:
+              type: integer
+              description: 사용자키
+            userType:
+              type: string
+              description: 사용자유형
+            changePassword:
+              type: boolean
+              description: 비밀번호변경여부
