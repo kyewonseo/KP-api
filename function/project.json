@@ -1,0 +1,8 @@
+{
+  "name": "kioskAPI",
+  "description": "dummy",
+  "memory": 128,
+  "timeout": 5,
+  "role": "arn:aws:iam::539277938309:role/kioskAPI_lambda_function",
+  "environment": {}
+}
