@@ -1,0 +1,23 @@
+{
+  "responseStatus": "success",
+  "responseMsg": "200",
+  "menu_idx": "1",
+  "sid": "2",
+  "sub_category_idx": "3",
+  "item_idx": "4",
+  "m_item": "아메리카노",
+  "m_type": "1",
+  "price": "3000",
+  "points": "234",
+  "calory": "120",
+  "barcode": "43245242",
+  "use_YN": "true",
+  "m_regidate": "20170209",
+  "description": "테스트를 위한 메뉴",
+  "col": "http:www.fjei.com/fjieif",
+  "menu_option_idx": "1",
+  "ref_menu_idx": "1",
+  "op_title": "샷 추가",
+  "op": "1",
+  "add_price": "500"
+}

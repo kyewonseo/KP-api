@@ -4,406 +4,562 @@ info:
   version: "0.0.1"
   title: "Kiosk API"
 host: "zf1oua0eo3.execute-api.ap-northeast-2.amazonaws.com"
-basePath: "/dev"
+basePath: "/dummy"
 schemes:
 - "https"
 paths:
-  /menu:
+  /orders/{user_id}:
     get:
+      consumes:
+      - "application/json"
       produces:
       - "application/json"
       parameters:
-      - name: "bmod"
-        in: "query"
+      - name: "user_id"
+        in: "path"
+        required: true
+        type: "string"
+      - name: "Authorization"
+        in: "header"
         required: true
         type: "string"
       tags:
-        - Menu
+        - "orders"
       responses:
         200:
           description: "200 response"
           schema:
-            $ref: "#/definitions/Menu"
+            $ref: "#/definitions/OrderRes"
       x-amazon-apigateway-integration:
         responses:
           default:
             statusCode: "200"
-        uri: "http://122.199.152.194:3000/menu.do"
-        requestParameters:
-          integration.request.querystring.bmod: "method.request.querystring.bmod"
+        requestTemplates:
+          application/json: "{\"statusCode\": 200}"
         passthroughBehavior: "when_no_match"
-        httpMethod: "GET"
-        type: "http"
+        type: "mock"
+  /orders/new:
     post:
       consumes:
       - "application/json"
       produces:
       - "application/json"
       parameters:
-      - name: "bmod"
-        in: "query"
-        required: true
-        type: "string"
       - in: "body"
-        name: "Menu"
+        name: "Order"
         required: true
         schema:
-          $ref: "#/definitions/Menu"
+            $ref: "#/definitions/NewOrderReq"
+      - name: "Authorization"
+        in: "header"
+        required: true
+        type: "string"
       tags:
-        - Menu
+        - "orders"
       responses:
         200:
           description: "200 response"
           schema:
-            $ref: "#/definitions/Result"
+            $ref: "#/definitions/NewOrderRes"
       x-amazon-apigateway-integration:
         responses:
           default:
             statusCode: "200"
-        uri: "http://122.199.152.194:3000/menu.do"
-        requestParameters:
-          integration.request.querystring.bmod: "method.request.querystring.bmod"
+        requestTemplates:
+          application/json: "{\"statusCode\": 200}"
         passthroughBehavior: "when_no_match"
-        httpMethod: "POST"
-        type: "http"
-    put:
-      consumes:
-      - "application/json"
-      produces:
-      - "application/json"
-      parameters:
-      - name: "bmod"
-        in: "query"
-        required: true
-        type: "string"
-      - in: "body"
-        name: "Menu"
-        required: true
-        schema:
-          $ref: "#/definitions/Menu"
-      tags:
-        - Menu
-      responses:
-        200:
-          description: "200 response"
-          schema:
-            $ref: "#/definitions/Result"
-      x-amazon-apigateway-integration:
-        responses:
-          default:
-            statusCode: "200"
-        uri: "http://122.199.152.194:3000/menu.do"
-        requestParameters:
-          integration.request.querystring.bmod: "method.request.querystring.bmod"
-        passthroughBehavior: "when_no_match"
-        httpMethod: "PUT"
-        type: "http"
-    delete:
-      consumes:
-      - "application/json"
-      produces:
-      - "application/json"
-      parameters:
-      - name: "bmod"
-        in: "query"
-        required: true
-        type: "string"
-      - in: "body"
-        name: "Menu"
-        required: true
-        schema:
-          $ref: "#/definitions/Menu"
-      tags:
-        - Menu
-      responses:
-        200:
-          description: "200 response"
-          schema:
-            $ref: "#/definitions/Result"
-      x-amazon-apigateway-integration:
-        responses:
-          default:
-            statusCode: "200"
-        uri: "http://122.199.152.194:3000/menu.do"
-        requestParameters:
-          integration.request.querystring.bmod: "method.request.querystring.bmod"
-        passthroughBehavior: "when_no_match"
-        httpMethod: "DELETE"
-        type: "http"
-    patch:
-      consumes:
-      - "application/json"
-      produces:
-      - "application/json"
-      parameters:
-      - name: "bmod"
-        in: "query"
-        required: true
-        type: "string"
-      - in: "body"
-        name: "Menu"
-        required: true
-        schema:
-          $ref: "#/definitions/Menu"
-      tags:
-        - Menu
-      responses:
-        200:
-          description: "200 response"
-          schema:
-            $ref: "#/definitions/Result"
-      x-amazon-apigateway-integration:
-        responses:
-          default:
-            statusCode: "200"
-        uri: "http://122.199.152.194:3000/menu.do"
-        requestParameters:
-          integration.request.querystring.bmod: "method.request.querystring.bmod"
-        passthroughBehavior: "when_no_match"
-        httpMethod: "PATCH"
-        type: "http"
-  /side-menu:
+        type: "mock"
+  /categories/{sid}:
     get:
+      consumes:
+      - "application/json"
       produces:
       - "application/json"
       parameters:
-      - name: "bmod"
-        in: "query"
+      - name: "sid"
+        in: "path"
+        required: true
+        type: "string"
+      - name: "Authorization"
+        in: "header"
         required: true
         type: "string"
       tags:
-        - SideMenu
+        - "categories"
       responses:
         200:
           description: "200 response"
           schema:
-            $ref: "#/definitions/SideMenu"
+            $ref: "#/definitions/CategoriesRes"
       x-amazon-apigateway-integration:
         responses:
           default:
             statusCode: "200"
-        uri: "http://122.199.152.194:3000/side_menu.do"
-        requestParameters:
-          integration.request.querystring.bmod: "method.request.querystring.bmod"
+        requestTemplates:
+          application/json: "{\"statusCode\": 200}"
         passthroughBehavior: "when_no_match"
-        httpMethod: "GET"
-        type: "http"
+        type: "mock"
+  /categories/subcategories/{category_idx}:
+    get:
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "category_idx"
+        in: "path"
+        required: true
+        type: "string"
+      - name: "Authorization"
+        in: "header"
+        required: true
+        type: "string"
+      tags:
+        - "categories"
+      responses:
+        200:
+          description: "200 response"
+          schema:
+            $ref: "#/definitions/SubcategoryRes"
+      x-amazon-apigateway-integration:
+        responses:
+          default:
+            statusCode: "200"
+        requestTemplates:
+          application/json: "{\"statusCode\": 200}"
+        passthroughBehavior: "when_no_match"
+        type: "mock"
+  /menu/{menu_idx}:
+    get:
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "menu_idx"
+        in: "path"
+        required: true
+        type: "string"
+      - name: "Authorization"
+        in: "header"
+        required: true
+        type: "string"
+      tags:
+        - "menu"
+      responses:
+        200:
+          description: "200 response"
+          schema:
+            $ref: "#/definitions/MenuRes"
+      x-amazon-apigateway-integration:
+        responses:
+          default:
+            statusCode: "200"
+        requestTemplates:
+          application/json: "{\"statusCode\": 200}"
+        passthroughBehavior: "when_no_match"
+        type: "mock"
+  /stores/{user_id}:
+    get:
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "user_id"
+        in: "path"
+        required: true
+        type: "string"
+      - name: "Authorization"
+        in: "header"
+        required: true
+        type: "string"
+      tags:
+        - "stores"
+      responses:
+        200:
+          description: "200 response"
+          schema:
+            $ref: "#/definitions/StoresRes"
+      x-amazon-apigateway-integration:
+        responses:
+          default:
+            statusCode: "200"
+        requestTemplates:
+          application/json: "{\"statusCode\": 200}"
+        passthroughBehavior: "when_no_match"
+        type: "mock"
+  /users/login:
     post:
       consumes:
       - "application/json"
       produces:
       - "application/json"
       parameters:
-      - name: "bmod"
-        in: "query"
+      - name: "Authorization"
+        in: "header"
         required: true
         type: "string"
       - in: "body"
-        name: "SideMenu"
+        name: "LoginReq"
         required: true
         schema:
-          $ref: "#/definitions/SideMenu"
+          $ref: "#/definitions/LoginReq"
       tags:
-        - SideMenu
+       - "users"
       responses:
         200:
           description: "200 response"
           schema:
-            $ref: "#/definitions/Result"
+            $ref: "#/definitions/LoginRes"
       x-amazon-apigateway-integration:
         responses:
           default:
             statusCode: "200"
-        uri: "http://122.199.152.194:3000/side_menu.do"
-        requestParameters:
-          integration.request.querystring.bmod: "method.request.querystring.bmod"
+        requestTemplates:
+          application/json: "{\"statusCode\": 200}"
         passthroughBehavior: "when_no_match"
-        httpMethod: "POST"
-        type: "http"
-    put:
-      consumes:
-      - "application/json"
-      produces:
-      - "application/json"
-      parameters:
-      - name: "bmod"
-        in: "query"
-        required: true
-        type: "string"
-      - in: "body"
-        name: "SideMenu"
-        required: true
-        schema:
-          $ref: "#/definitions/SideMenu"
-      tags:
-        - SideMenu
-      responses:
-        200:
-          description: "200 response"
-          schema:
-            $ref: "#/definitions/Result"
-      x-amazon-apigateway-integration:
-        responses:
-          default:
-            statusCode: "200"
-        uri: "http://122.199.152.194:3000/side_menu.do"
-        requestParameters:
-          integration.request.querystring.bmod: "method.request.querystring.bmod"
-        passthroughBehavior: "when_no_match"
-        httpMethod: "PUT"
-        type: "http"
-    delete:
-      consumes:
-      - "application/json"
-      produces:
-      - "application/json"
-      parameters:
-      - name: "bmod"
-        in: "query"
-        required: false
-        type: "string"
-      - in: "body"
-        name: "SideMenu"
-        required: true
-        schema:
-          $ref: "#/definitions/SideMenu"
-      tags:
-        - SideMenu
-      responses:
-        200:
-          description: "200 response"
-          schema:
-            $ref: "#/definitions/Result"
-      x-amazon-apigateway-integration:
-        responses:
-          default:
-            statusCode: "200"
-        uri: "http://122.199.152.194:3000/side_menu.do"
-        requestParameters:
-          integration.request.querystring.bmod: "method.request.querystring.bmod"
-        passthroughBehavior: "when_no_match"
-        httpMethod: "DELETE"
-        type: "http"
-    patch:
-      consumes:
-      - "application/json"
-      produces:
-      - "application/json"
-      parameters:
-      - name: "bmod"
-        in: "query"
-        required: true
-        type: "string"
-      - in: "body"
-        name: "SideMenu"
-        required: true
-        schema:
-          $ref: "#/definitions/SideMenu"
-      tags:
-        - SideMenu
-      responses:
-        200:
-          description: "200 response"
-          schema:
-            $ref: "#/definitions/Result"
-      x-amazon-apigateway-integration:
-        responses:
-          default:
-            statusCode: "200"
-        uri: "http://122.199.152.194:3000/side_menu.do"
-        requestParameters:
-          integration.request.querystring.bmod: "method.request.querystring.bmod"
-        passthroughBehavior: "when_no_match"
-        httpMethod: "PATCH"
-        type: "http"
+        type: "mock"
 definitions:
-  Menu:
+  OrderRes:
     type: "object"
     properties:
-      success:
-        type: "boolean"
+      responseStatus:
+        type: "string"
         description: "성공여부"
-      errorCode:
+      responseMsg:
         type: "string"
         description: "에러 코드"
-      message:
-        type: "string"
-        description: "메시지"
-      data:
-        type: "object"
-        properties:
-          menu_idx:
-            type: "string"
-            description: ""
-          category:
-            type: "string"
-            description: ""
-          name:
-            type: "string"
-            description: ""
-          calory:
-            type: "string"
-            description: ""
-          price:
-            type: "string"
-            description: ""
-          description:
-            type: "string"
-            description: ""
-          barcode:
-            type: "string"
-            description: ""
-          use_YN:
-            type: "string"
-            description: ""
-  SideMenu:
+      orders:
+        type: "array"
+        description: "주문 정보 리스트"
+        items:
+          type: "object"
+          properties:
+            sid:
+              type: "string"
+              description: "매장번호"
+            m_no:
+              type: "string"
+              description: "상점번호"
+            user_id:
+              type: "string"
+              description: "회사명"
+            amount:
+              type: "string"
+              description: "점장 정보"
+            coupon:
+              type: "string"
+              description: "매장 주소"
+            coupon_title:
+              type: "string"
+              description: "이미지"
+            discount:
+              type: "string"
+            discount_title:
+              type: "string"
+            price:
+              type: "string"
+              description: "결제금액 = 주문총액 - 쿠폰 - 할인"
+            add_points:
+              type: "string"
+            order_status:
+              type: "string"
+              description: "주문완료, 주문취소, 환불 , null"
+            cook_status:
+              type: "string"
+              description: "처리중, 처리완료"
+            paymethod:
+              type: "string"
+              description: "현금,카드,포인트(1,0,0)"
+            user_agent:
+              type: "string"
+            cash:
+              type: "string"
+            card:
+              type: "string"
+            points:
+              type: "string"
+            package:
+              type: "string"
+            registed_date:
+              type: "string"
+            order_detail:
+              type: "array"
+              description: "주문 상세"
+              items:
+                type: "object"
+                properties:
+                  order_detail_idx:
+                    type: "string"
+                  order_idx:
+                    type: "string"
+                  menu_idx:
+                    type: "string"
+                  menu_option_idx:
+                    type: "string"
+                    description: "0:메인 메뉴, / 1:옵션 메뉴"
+                  menu_name:
+                    type: "string"
+                  quantity:
+                    type: "string"
+                  price:
+                    type: "string"
+  NewOrderReq:
     type: "object"
     properties:
-      success:
-        type: "boolean"
-        description: "성공여부"
-      errorCode:
+      user_id:
         type: "string"
-        description: "에러 코드"
-      message:
-        type: "string"
-        description: "메시지"
-      data:
-        type: "object"
-        properties:
-          side_menu_idx:
-            type: "string"
-            description: ""
-          menu_idx:
-            type: "string"
-            description: ""
-          name:
-            type: "string"
-            description: ""
-          calory:
-            type: "string"
-            description: ""
-          price:
-            type: "string"
-            description: ""
-          description:
-            type: "string"
-            description: ""
-          barcode:
-            type: "string"
-            description: ""
-          use_YN:
-            type: "string"
-            description: ""
-  Result:
+      menu:
+        type: "array"
+        description: "주문할 메뉴정보"
+        items:
+          type: "object"
+          properties:
+            menu_idx:
+              type: "string"
+            sid:
+              type: "string"
+            sub_category_idx:
+              type: "string"
+            item_idx:
+              type: "string"
+            m_item:
+              type: "string"
+            m_type:
+              type: "string"
+            price:
+              type: "string"
+            points:
+              type: "string"
+            calory:
+              type: "string"
+            barcode:
+              type: "string"
+            use_YN:
+              type: "string"
+            m_regidate:
+              type: "string"
+            description:
+              type: "string"
+            COL:
+              type: "string"
+  NewOrderRes:
     type: "object"
     properties:
-      success:
-        type: "boolean"
+      responseStatus:
+        type: "string"
+        description: "성공유부"
+      responseMsg:
+        type: "string"
+        description: "에러 메시지"
+  CategoriesRes:
+    type: "object"
+    properties:
+      responseStatus:
+        type: "string"
         description: "성공여부"
-      errorCode:
+      responseMsg:
         type: "string"
         description: "에러 코드"
-      message:
+      categories:
+        type: "array"
+        description: "카테고리"
+        items:
+          type: "object"
+          properties:
+            category_idx:
+              type: "string"
+            machine_no:
+              type: "string"
+  SubcategoryRes:
+    type: "object"
+    properties:
+      responseStatus:
         type: "string"
-        description: "메시지"
+        description: "성공여부"
+      responseMsg:
+        type: "string"
+        description: "에러 코드"
+      subcategories:
+        type: "array"
+        description: "서브 카테고리"
+        items:
+          type: "string"
+          properties:
+            sub_category_idx:
+              type: "string"
+            sub_category_name:
+              type: "string"
+            menu:
+              type: "array"
+              description: "메뉴 리스트"
+              items:
+                type: "string"
+                properties:
+                  menu_idx:
+                    type: "string"
+                  sid:
+                    type: "string"
+                  sub_category_idx:
+                    type: "string"
+                  item_idx:
+                    type: "string"
+                  m_item:
+                    type: "string"
+                  m_type:
+                    type: "string"
+                  price:
+                    type: "string"
+                  points:
+                    type: "string"
+                  calory:
+                    type: "string"
+                  barcode:
+                    type: "string"
+                  use_YN:
+                    type: "string"
+                  m_regidate:
+                    type: "string"
+                  description:
+                    type: "string"
+                  col:
+                    type: "string"
+                    description: "이미지"
+                  discount_title:
+                    type: "string"
+                    description: "해당 메뉴의 할인정보 이름"
+                  discount_type:
+                    type: "string"
+                  discount_price:
+                    type: "string"
+                  discount_start:
+                    type: "string"
+                  discount_end:
+                    type: "string"
+                  e_id:
+                    type: "string"
+                  discount_regidate:
+                    type: "string"
+                  ip:
+                    type: "string"
+  MenuRes:
+    type: "object"
+    properties:
+      responseStatus:
+        type: "string"
+        description: "성공여부"
+      responseMsg:
+        type: "string"
+        description: "에러 코드"
+      menu_idx:
+        type: "string"
+      sid:
+        type: "string"
+      sub_category_idx:
+        type: "string"
+      item_idx:
+        type: "string"
+      m_item:
+        type: "string"
+      m_type:
+        type: "string"
+      price:
+        type: "string"
+      points:
+        type: "string"
+      calory:
+        type: "string"
+      barcode:
+        type: "string"
+      use_YN:
+        type: "string"
+      m_regidate:
+        type: "string"
+      description:
+        type: "string"
+      col:
+        type: "string"
+        description: "이미지"
+      menu_option_idx:
+        type: "string"
+      ref_menu_idx:
+        type: "string"
+      op_title:
+        type: "string"
+      op:
+        type: "string"
+      add_price:
+        type: "string"
+  StoresRes:
+    type: "object"
+    properties:
+      responseStatus:
+        type: "string"
+        description: "성공여부"
+      responseMsg:
+        type: "string"
+        description: "에러 코드"
+      stores:
+        type: "array"
+        description: "스토어 정보 리스트"
+        items:
+          type: "object"
+          properties:
+            sid:
+              type: "string"
+              description: "매장번호"
+            mid:
+              type: "string"
+              description: "상점번호"
+            store:
+              type: "string"
+              description: "회사명"
+            e_id:
+              type: "string"
+              description: "점장 정보"
+            s_address:
+              type: "string"
+              description: "매장 주소"
+            s_logo:
+              type: "string"
+              description: "이미지"
+            company:
+              type: "string"
+              description: "회사명"
+            m_name:
+              type: "string"
+              description: "이름"
+            m_phone:
+              type: "string"
+              description: "전화번호"
+            m_address:
+              type: "string"
+              description: "주소"
+            m_logo:
+              type: "string"
+              description: "이미지"
+            registed_date:
+              type: "string"
+              description: "날짜"
+  LoginRes:
+    type: "object"
+    properties:
+      responseStatus:
+        type: "string"
+        description: "성공유부"
+      responseMsg:
+        type: "string"
+        description: "에러 메시지"
+      user_id:
+        type: "string"
+        description: "login id"
+  LoginReq:
+    type: "object"
+    properties:
+      login_id:
+        type: "string"
+        description: "login id"
+      pass_id:
+        type: "string"
+        description: "login passward"

@@ -4,4 +4,7 @@
   "description": "dummy"
   "dependencies": {
   }
+  "scripts": {
+  "postinstall": "find ./functions/* -name package.json -maxdepth 1 -execdir npm install \\;"
+  }
 }
