@@ -551,9 +551,23 @@ definitions:
       responseMsg:
         type: "string"
         description: "에러 메시지"
-      user_id:
+      u_id:
         type: "string"
         description: "login id"
+      sid:
+        type: "string"
+      u_passwd:
+        type: "string"
+      u_name:
+        type: "string"
+      u_phone:
+        type: "string"
+      u_points:
+        type: "string"
+      u_status:
+        type: "string"
+      u_level:
+        type: "string"
   LoginReq:
     type: "object"
     properties:

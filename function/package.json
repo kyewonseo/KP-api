@@ -1,10 +1,10 @@
 {
   "name": "kiosk-API",
-  "version": "0.0.1"
-  "description": "dummy"
+  "version": "0.0.1",
+  "description": "dummy",
   "dependencies": {
-  }
+  },
   "scripts": {
-  "postinstall": "find ./functions/* -name package.json -maxdepth 1 -execdir npm install \\;"
+    "postinstall": "find ./functions/* -name package.json -maxdepth 1 -execdir npm install \\;"
   }
 }
