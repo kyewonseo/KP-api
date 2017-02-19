@@ -4,7 +4,7 @@ info:
   version: "0.0.1"
   title: "Kiosk API"
 host: "zf1oua0eo3.execute-api.ap-northeast-2.amazonaws.com"
-basePath: "/dummy"
+basePath: "/dev"
 schemes:
 - "https"
 paths:
@@ -159,14 +159,14 @@ paths:
           application/json: "{\"statusCode\": 200}"
         passthroughBehavior: "when_no_match"
         type: "mock"
-  /stores/{user_id}:
+  /stores/{account_id}:
     get:
       consumes:
       - "application/json"
       produces:
       - "application/json"
       parameters:
-      - name: "user_id"
+      - name: "account_id"
         in: "path"
         required: true
         type: "string"
@@ -185,10 +185,11 @@ paths:
         responses:
           default:
             statusCode: "200"
-        requestTemplates:
-          application/json: "{\"statusCode\": 200}"
+        uri: "arn:aws:apigateway:ap-northeast-2:lambda:path/2015-03-31/functions/arn:aws:lambda:ap-northeast-2:539277938309:function:kioskAPI_store/invocations"
         passthroughBehavior: "when_no_match"
-        type: "mock"
+        httpMethod: "GET"
+        contentHandling: "CONVERT_TO_TEXT"
+        type: "aws"
   /users/login:
     post:
       consumes:
@@ -216,10 +217,11 @@ paths:
         responses:
           default:
             statusCode: "200"
-        requestTemplates:
-          application/json: "{\"statusCode\": 200}"
+        uri: "arn:aws:apigateway:ap-northeast-2:lambda:path/2015-03-31/functions/arn:aws:lambda:ap-northeast-2:539277938309:function:kioskAPI_login/invocations"
         passthroughBehavior: "when_no_match"
-        type: "mock"
+        httpMethod: "POST"
+        contentHandling: "CONVERT_TO_TEXT"
+        type: "aws"
 definitions:
   OrderRes:
     type: "object"
@@ -500,48 +502,39 @@ definitions:
       responseMsg:
         type: "string"
         description: "에러 코드"
-      stores:
+      data:
         type: "array"
         description: "스토어 정보 리스트"
         items:
           type: "object"
           properties:
-            sid:
+            store_id:
               type: "string"
               description: "매장번호"
-            mid:
-              type: "string"
-              description: "상점번호"
             store:
               type: "string"
               description: "회사명"
-            e_id:
-              type: "string"
-              description: "점장 정보"
             s_address:
               type: "string"
-              description: "매장 주소"
             s_logo:
               type: "string"
-              description: "이미지"
+            status:
+              type: "string"
+            merchant_id:
+              type: "string"
             company:
               type: "string"
-              description: "회사명"
             m_name:
               type: "string"
-              description: "이름"
             m_phone:
               type: "string"
-              description: "전화번호"
             m_address:
               type: "string"
-              description: "주소"
             m_logo:
               type: "string"
-              description: "이미지"
             registed_date:
               type: "string"
-              description: "날짜"
+            
   LoginRes:
     type: "object"
     properties:
@@ -550,30 +543,42 @@ definitions:
         description: "성공유부"
       responseMsg:
         type: "string"
-        description: "에러 메시지"
-      u_id:
-        type: "string"
-        description: "login id"
-      sid:
-        type: "string"
-      u_passwd:
-        type: "string"
-      u_name:
-        type: "string"
-      u_phone:
-        type: "string"
-      u_points:
-        type: "string"
-      u_status:
-        type: "string"
-      u_level:
-        type: "string"
+        description: "응답메시지"
+      data:
+        type: "array"
+        items:
+          type: "object"
+          properties:
+            account_id:
+              type: "string"
+            name:
+              type: "string"
+            phone:
+              type: "string"
+            token:
+              type: "string"
+            status:
+              type: "string"
+            regidate:
+              type: "string"
+            user_id:
+              type: "string"
+            store_id:
+              type: "string"
+            u_points:
+              type: "string"
+            u_status:
+              type: "string"
+            u_level:
+              type: "string"
+            usercol:
+              type: "string"
   LoginReq:
     type: "object"
     properties:
       login_id:
         type: "string"
         description: "login id"
-      pass_id:
+      login_passwd:
         type: "string"
         description: "login passward"

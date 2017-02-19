@@ -1,0 +1,12 @@
+{
+  "name": "kiosk-API",
+  "version": "0.0.1",
+  "description": "dummy",
+  "dependencies": {
+    "aws-api-gateway-client": "^0.1.12",
+    "chai": "^3.5.0"
+  },
+  "scripts": {
+    "test": "login.js"
+  }
+}

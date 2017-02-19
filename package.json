@@ -1,9 +1,13 @@
 {
-    "scripts": {
-        "test": "mocha --reporter mochawesome"
-    },
-    "dependencies": {
-        "mocha": ">=3.0.0",
-        "mochawesome": ">=2.0.2"
-    }
+  "scripts": {
+    "test": "mocha --reporter mochawesome"
+  },
+  "dependencies": {
+    "mocha": ">=3.0.0",
+    "mochawesome": ">=2.0.2"
+  },
+  "devDependencies": {
+    "aws-api-gateway-client": "^0.1.12",
+    "mocha": "^3.2.0"
+  }
 }
