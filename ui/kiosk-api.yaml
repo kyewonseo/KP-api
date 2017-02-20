@@ -65,10 +65,11 @@ paths:
         responses:
           default:
             statusCode: "200"
-        requestTemplates:
-          application/json: "{\"statusCode\": 200}"
+        uri: "arn:aws:apigateway:ap-northeast-2:lambda:path/2015-03-31/functions/arn:aws:lambda:ap-northeast-2:539277938309:function:kioskAPI_order_new/invocations"
         passthroughBehavior: "when_no_match"
-        type: "mock"
+        httpMethod: "POST"
+        contentHandling: "CONVERT_TO_TEXT"
+        type: "aws"
   /categories/{sid}:
     get:
       consumes:
@@ -185,9 +186,19 @@ paths:
         responses:
           default:
             statusCode: "200"
+        requestTemplates:
+          application/json: "{\n  \"body\" : $input.json('$'),\n  \"headers\": {\n\
+            \    #foreach($header in $input.params().header.keySet())\n    \"$header\"\
+            : \"$util.escapeJavaScript($input.params().header.get($header))\" #if($foreach.hasNext),#end\n\
+            \n    #end\n  },\n  \"method\": \"$context.httpMethod\",\n  \"params\"\
+            : {\n    #foreach($param in $input.params().path.keySet())\n    \"$param\"\
+            : \"$util.escapeJavaScript($input.params().path.get($param))\" #if($foreach.hasNext),#end\n\
+            \n    #end\n  },\n  \"query\": {\n    #foreach($queryParam in $input.params().querystring.keySet())\n\
+            \    \"$queryParam\": \"$util.escapeJavaScript($input.params().querystring.get($queryParam))\"\
+            \ #if($foreach.hasNext),#end\n\n    #end\n  }  \n}"
         uri: "arn:aws:apigateway:ap-northeast-2:lambda:path/2015-03-31/functions/arn:aws:lambda:ap-northeast-2:539277938309:function:kioskAPI_store/invocations"
-        passthroughBehavior: "when_no_match"
-        httpMethod: "GET"
+        passthroughBehavior: "when_no_templates"
+        httpMethod: "POST"
         contentHandling: "CONVERT_TO_TEXT"
         type: "aws"
   /users/login:
@@ -310,42 +321,53 @@ definitions:
   NewOrderReq:
     type: "object"
     properties:
+      order_id:
+        type: "string"
+      store_id:
+        type: "string"
+      machine_id:
+        type: "string"
       user_id:
         type: "string"
-      menu:
-        type: "array"
-        description: "주문할 메뉴정보"
-        items:
-          type: "object"
-          properties:
-            menu_idx:
-              type: "string"
-            sid:
-              type: "string"
-            sub_category_idx:
-              type: "string"
-            item_idx:
-              type: "string"
-            m_item:
-              type: "string"
-            m_type:
-              type: "string"
-            price:
-              type: "string"
-            points:
-              type: "string"
-            calory:
-              type: "string"
-            barcode:
-              type: "string"
-            use_YN:
-              type: "string"
-            m_regidate:
-              type: "string"
-            description:
-              type: "string"
-            COL:
-              type: "string"
+      amount:
+        type: "string"
+        description: "주문총액"
+      coupon:
+        type: "string"
+      coupon_title:
+        type: "string"
+      discount:
+        type: "string"
+      discount_title:
+        type: "string"
+      price:
+        type: "string"
+        description: "결제금액 = 주문총액-쿠폰-할인"
+      add_points:
+        type: "string"
+      order_status:
+        type: "string"
+        description: "주문완료, 주문취소, 환불, null"
+      cook_status:
+        type: "string"
+        description: "처리중, 처리완료"
+      paymethod:
+        type: "string"
+        description: "현금, 카드, 포인트 (1,0,0), (1,1,1)"
+      user_agent:
+        type: "string"
+        description: "매장, 모바일"
+      cash:
+        type: "string"
+      card:
+        type: "string"
+      points:
+        type: "string"
+      package:
+        type: "string"
+        description: "포장선택 (0,1)"
+      registed_date:
+        type: "string"
   NewOrderRes:
     type: "object"
     properties:
@@ -354,7 +376,7 @@ definitions:
         description: "성공유부"
       responseMsg:
         type: "string"
-        description: "에러 메시지"
+        description: "응답 메시지"
   CategoriesRes:
     type: "object"
     properties:
