@@ -5,6 +5,7 @@ const config            = {invokeUrl: 'https://zf1oua0eo3.execute-api.ap-northea
 const apigClient        = apigClientFactory.newClient(config);
 const assert            = require('assert');
 
+let responseData = null;
 describe('User', function() {
     describe('/users/login', function() {
 
@@ -19,35 +20,22 @@ describe('User', function() {
             }
         };
         let body = {
-            login_id: "1",
-            pass_id: "abcd"
+            login_id: "total_id1",
+            login_passwd: "encryptionPwd"
         };
-
-        let responseData;
 
         it('http status 200 check', function(done) {
             apigClient.invokeApi(params, pathTemplate, method, additionalParams, body)
                 .then(function (result) {
-                    responseData = result.data;
                     assert.equal(200, result.status);
 
+                    responseData = result.data;
                     console.log(responseData);
                     done();
                 }).catch(function (result) {
                 console.log(result);
                 done('error');
             });
-        });
-
-        it('id null check', function(done) {
-            assert(responseData.login_id != null);
-            console.log(responseData.login_id);
-            done();
-        });
-        it('passwd null check', function(done) {
-            assert(responseData.pass_id != null);
-            console.log(responseData.pass_id);
-            done();
         });
     });
 });
