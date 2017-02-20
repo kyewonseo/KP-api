@@ -6,7 +6,8 @@ const StoresRes = [];
 const resMsg = {};
 
 exports.handle = function (event, context, cb) {
-    console.log('processing event : %j', event.path.account_id);
+    console.log('processing event : %j', event);
+    console.log('processing event account_id: %j', event.params.account_id);
 
     const pool = db.create();
 
@@ -16,7 +17,7 @@ exports.handle = function (event, context, cb) {
             "INNER JOIN account a ON(u.account_id = a.account_id) " +
             "INNER JOIN store s ON(u.store_id = s.store_id) " +
             "INNER JOIN merchant m ON(s.merchant_id = m.merchant_id) " +
-            "WHERE u.account_id = ?", [event.path.account_id], function (err, rows) {
+            "WHERE u.account_id = ?", [event.params.account_id], function (err, rows) {
 
             if (err) {
 
