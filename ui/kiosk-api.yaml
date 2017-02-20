@@ -65,6 +65,8 @@ paths:
         responses:
           default:
             statusCode: "200"
+            responseParameters:
+             method.response.header.Access-Control-Allow-Origin: "'*'"
         uri: "arn:aws:apigateway:ap-northeast-2:lambda:path/2015-03-31/functions/arn:aws:lambda:ap-northeast-2:539277938309:function:kioskAPI_order_new/invocations"
         passthroughBehavior: "when_no_match"
         httpMethod: "POST"
@@ -228,6 +230,8 @@ paths:
         responses:
           default:
             statusCode: "200"
+            responseParameters:
+             method.response.header.Access-Control-Allow-Origin: "'*'"
         uri: "arn:aws:apigateway:ap-northeast-2:lambda:path/2015-03-31/functions/arn:aws:lambda:ap-northeast-2:539277938309:function:kioskAPI_login/invocations"
         passthroughBehavior: "when_no_match"
         httpMethod: "POST"

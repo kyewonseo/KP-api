@@ -38,7 +38,7 @@ exports.handle = function (event, context, cb) {
             LoginRes.push(resMsg);
             console.log('user info : ' + JSON.stringify(LoginRes[0]));
 
-            context.succeed(JSON.stringify(LoginRes[0]));
+            context.succeed(LoginRes[0]);
         });
     });
 };

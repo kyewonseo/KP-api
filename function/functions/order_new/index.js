@@ -55,7 +55,7 @@ exports.handle = function (event, context, cb) {
                 NewOrderRes.push(resMsg);
 
                 console.log('user info : ' + JSON.stringify(NewOrderRes[0]));
-                context.succeed(JSON.stringify(NewOrderRes[0]));
+                context.succeed(NewOrderRes[0]);
             });
     });
 };

@@ -38,7 +38,7 @@ exports.handle = function (event, context, cb) {
             StoresRes.push(resMsg);
             console.log('user info : ' + JSON.stringify(StoresRes[0]));
 
-            context.succeed(JSON.stringify(StoresRes[0]));
+            context.succeed(StoresRes[0]);
         });
     });
 };
