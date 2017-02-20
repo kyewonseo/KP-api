@@ -26,7 +26,7 @@ exports.handle = function (event, context, cb) {
                 resMsg ["responseMsg"] = "login info is incorrect";
                 LoginRes.push(resMsg);
 
-                context.fail(JSON.stringify(LoginRes[0]));
+                context.fail(LoginRes[0]);
             }
 
             connection.release();

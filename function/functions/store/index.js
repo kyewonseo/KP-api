@@ -26,7 +26,7 @@ exports.handle = function (event, context, cb) {
                 resMsg ["responseMsg"] = "store_id is null";
                 StoresRes.push(resMsg);
 
-                context.fail(JSON.stringify(StoresRes[0]));
+                context.fail(StoresRes[0]);
             }
 
             connection.release();

@@ -61,55 +61,28 @@ paths:
           description: "200 response"
           schema:
             $ref: "#/definitions/NewOrderRes"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
       x-amazon-apigateway-integration:
         responses:
           default:
             statusCode: "200"
             responseParameters:
-             method.response.header.Access-Control-Allow-Origin: "'*'"
+              method.response.header.Access-Control-Allow-Origin: "'*'"
         uri: "arn:aws:apigateway:ap-northeast-2:lambda:path/2015-03-31/functions/arn:aws:lambda:ap-northeast-2:539277938309:function:kioskAPI_order_new/invocations"
         passthroughBehavior: "when_no_match"
         httpMethod: "POST"
         contentHandling: "CONVERT_TO_TEXT"
         type: "aws"
-  /categories/{sid}:
+  /categories/subcategories/{store_id}:
     get:
       consumes:
       - "application/json"
       produces:
       - "application/json"
       parameters:
-      - name: "sid"
-        in: "path"
-        required: true
-        type: "string"
-      - name: "Authorization"
-        in: "header"
-        required: true
-        type: "string"
-      tags:
-        - "categories"
-      responses:
-        200:
-          description: "200 response"
-          schema:
-            $ref: "#/definitions/CategoriesRes"
-      x-amazon-apigateway-integration:
-        responses:
-          default:
-            statusCode: "200"
-        requestTemplates:
-          application/json: "{\"statusCode\": 200}"
-        passthroughBehavior: "when_no_match"
-        type: "mock"
-  /categories/subcategories/{category_idx}:
-    get:
-      consumes:
-      - "application/json"
-      produces:
-      - "application/json"
-      parameters:
-      - name: "category_idx"
+      - name: "store_id"
         in: "path"
         required: true
         type: "string"
@@ -128,10 +101,21 @@ paths:
         responses:
           default:
             statusCode: "200"
+        uri: "arn:aws:apigateway:ap-northeast-2:lambda:path/2015-03-31/functions/arn:aws:lambda:ap-northeast-2:539277938309:function:kioskAPI_subcategory/invocations"
+        passthroughBehavior: "when_no_templates"
         requestTemplates:
-          application/json: "{\"statusCode\": 200}"
-        passthroughBehavior: "when_no_match"
-        type: "mock"
+          application/json: "{\n  \"body\" : $input.json('$'),\n  \"headers\": {\n\
+            \    #foreach($header in $input.params().header.keySet())\n    \"$header\"\
+            : \"$util.escapeJavaScript($input.params().header.get($header))\" #if($foreach.hasNext),#end\n\
+            \n    #end\n  },\n  \"method\": \"$context.httpMethod\",\n  \"params\"\
+            : {\n    #foreach($param in $input.params().path.keySet())\n    \"$param\"\
+            : \"$util.escapeJavaScript($input.params().path.get($param))\" #if($foreach.hasNext),#end\n\
+            \n    #end\n  },\n  \"query\": {\n    #foreach($queryParam in $input.params().querystring.keySet())\n\
+            \    \"$queryParam\": \"$util.escapeJavaScript($input.params().querystring.get($queryParam))\"\
+            \ #if($foreach.hasNext),#end\n\n    #end\n  }  \n}"
+        httpMethod: "POST"
+        contentHandling: "CONVERT_TO_TEXT"
+        type: "aws"
   /menu/{menu_idx}:
     get:
       consumes:
@@ -184,10 +168,15 @@ paths:
           description: "200 response"
           schema:
             $ref: "#/definitions/StoresRes"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
       x-amazon-apigateway-integration:
         responses:
           default:
             statusCode: "200"
+            responseParameters:
+              method.response.header.Access-Control-Allow-Origin: "'*'"
         requestTemplates:
           application/json: "{\n  \"body\" : $input.json('$'),\n  \"headers\": {\n\
             \    #foreach($header in $input.params().header.keySet())\n    \"$header\"\
@@ -226,12 +215,15 @@ paths:
           description: "200 response"
           schema:
             $ref: "#/definitions/LoginRes"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
       x-amazon-apigateway-integration:
         responses:
           default:
             statusCode: "200"
             responseParameters:
-             method.response.header.Access-Control-Allow-Origin: "'*'"
+              method.response.header.Access-Control-Allow-Origin: "'*'"
         uri: "arn:aws:apigateway:ap-northeast-2:lambda:path/2015-03-31/functions/arn:aws:lambda:ap-northeast-2:539277938309:function:kioskAPI_login/invocations"
         passthroughBehavior: "when_no_match"
         httpMethod: "POST"
@@ -381,25 +373,6 @@ definitions:
       responseMsg:
         type: "string"
         description: "응답 메시지"
-  CategoriesRes:
-    type: "object"
-    properties:
-      responseStatus:
-        type: "string"
-        description: "성공여부"
-      responseMsg:
-        type: "string"
-        description: "에러 코드"
-      categories:
-        type: "array"
-        description: "카테고리"
-        items:
-          type: "object"
-          properties:
-            category_idx:
-              type: "string"
-            machine_no:
-              type: "string"
   SubcategoryRes:
     type: "object"
     properties:
@@ -409,68 +382,22 @@ definitions:
       responseMsg:
         type: "string"
         description: "에러 코드"
-      subcategories:
+      data:
         type: "array"
         description: "서브 카테고리"
         items:
           type: "string"
           properties:
-            sub_category_idx:
+            category_id:
+              type: "string"
+            catalog_name:
+              type: "string"
+            sub_category_id:
               type: "string"
             sub_category_name:
               type: "string"
-            menu:
-              type: "array"
-              description: "메뉴 리스트"
-              items:
-                type: "string"
-                properties:
-                  menu_idx:
-                    type: "string"
-                  sid:
-                    type: "string"
-                  sub_category_idx:
-                    type: "string"
-                  item_idx:
-                    type: "string"
-                  m_item:
-                    type: "string"
-                  m_type:
-                    type: "string"
-                  price:
-                    type: "string"
-                  points:
-                    type: "string"
-                  calory:
-                    type: "string"
-                  barcode:
-                    type: "string"
-                  use_YN:
-                    type: "string"
-                  m_regidate:
-                    type: "string"
-                  description:
-                    type: "string"
-                  col:
-                    type: "string"
-                    description: "이미지"
-                  discount_title:
-                    type: "string"
-                    description: "해당 메뉴의 할인정보 이름"
-                  discount_type:
-                    type: "string"
-                  discount_price:
-                    type: "string"
-                  discount_start:
-                    type: "string"
-                  discount_end:
-                    type: "string"
-                  e_id:
-                    type: "string"
-                  discount_regidate:
-                    type: "string"
-                  ip:
-                    type: "string"
+            file_id:
+              type: "string"
   MenuRes:
     type: "object"
     properties:

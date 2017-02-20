@@ -45,7 +45,7 @@ exports.handle = function (event, context, cb) {
                 resMsg ["responseMsg"] = "order info is incorrect";
                 NewOrderRes.push(resMsg);
 
-                context.fail(JSON.stringify(NewOrderRes[0]));
+                context.fail(NewOrderRes[0]);
             }
 
                 connection.release();

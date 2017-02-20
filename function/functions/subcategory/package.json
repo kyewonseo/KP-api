@@ -1,0 +1,8 @@
+{
+  "name": "subcategory",
+  "version": "0.0.1",
+  "description": "dev",
+  "dependencies": {
+    "mysql": "^2.13.0"
+  }
+}
