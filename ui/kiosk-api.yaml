@@ -116,14 +116,14 @@ paths:
         httpMethod: "POST"
         contentHandling: "CONVERT_TO_TEXT"
         type: "aws"
-  /menu/{menu_idx}:
+  /menu/{sub_category_id}:
     get:
       consumes:
       - "application/json"
       produces:
       - "application/json"
       parameters:
-      - name: "menu_idx"
+      - name: "sub_category_id"
         in: "path"
         required: true
         type: "string"
@@ -143,9 +143,20 @@ paths:
           default:
             statusCode: "200"
         requestTemplates:
-          application/json: "{\"statusCode\": 200}"
-        passthroughBehavior: "when_no_match"
-        type: "mock"
+          application/json: "{\n  \"body\" : $input.json('$'),\n  \"headers\": {\n\
+            \    #foreach($header in $input.params().header.keySet())\n    \"$header\"\
+            : \"$util.escapeJavaScript($input.params().header.get($header))\" #if($foreach.hasNext),#end\n\
+            \n    #end\n  },\n  \"method\": \"$context.httpMethod\",\n  \"params\"\
+            : {\n    #foreach($param in $input.params().path.keySet())\n    \"$param\"\
+            : \"$util.escapeJavaScript($input.params().path.get($param))\" #if($foreach.hasNext),#end\n\
+            \n    #end\n  },\n  \"query\": {\n    #foreach($queryParam in $input.params().querystring.keySet())\n\
+            \    \"$queryParam\": \"$util.escapeJavaScript($input.params().querystring.get($queryParam))\"\
+            \ #if($foreach.hasNext),#end\n\n    #end\n  }  \n}"
+        uri: "arn:aws:apigateway:ap-northeast-2:lambda:path/2015-03-31/functions/arn:aws:lambda:ap-northeast-2:539277938309:function:kioskAPI_menu/invocations"
+        passthroughBehavior: "when_no_templates"
+        httpMethod: "POST"
+        contentHandling: "CONVERT_TO_TEXT"
+        type: "aws"
   /stores/{account_id}:
     get:
       consumes:
@@ -381,7 +392,7 @@ definitions:
         description: "성공여부"
       responseMsg:
         type: "string"
-        description: "에러 코드"
+        description: "응답 코드"
       data:
         type: "array"
         description: "서브 카테고리"
@@ -406,46 +417,60 @@ definitions:
         description: "성공여부"
       responseMsg:
         type: "string"
-        description: "에러 코드"
-      menu_idx:
-        type: "string"
-      sid:
-        type: "string"
-      sub_category_idx:
-        type: "string"
-      item_idx:
-        type: "string"
-      m_item:
-        type: "string"
-      m_type:
-        type: "string"
-      price:
-        type: "string"
-      points:
-        type: "string"
-      calory:
-        type: "string"
-      barcode:
-        type: "string"
-      use_YN:
-        type: "string"
-      m_regidate:
-        type: "string"
-      description:
-        type: "string"
-      col:
-        type: "string"
-        description: "이미지"
-      menu_option_idx:
-        type: "string"
-      ref_menu_idx:
-        type: "string"
-      op_title:
-        type: "string"
-      op:
-        type: "string"
-      add_price:
-        type: "string"
+        description: "응답 코드"
+      data:
+        type: "array"
+        description: "메뉴 리스트"
+        items:
+          type: "string"
+          properties:
+            menu_id:
+              type: "string"
+            store_id:
+              type: "string"
+            sub_category_id:
+              type: "string"
+            inventory_id:
+              type: "string"
+            m_item:
+              type: "string"
+              description: "메뉴명"
+            m_type:
+              type: "string"
+              description: "메뉴옵션 타입"
+            price:
+              type: "string"
+            points:
+              type: "string"
+            calory:
+              type: "string"
+            barcode:
+              type: "string"
+            use_YN:
+              type: "string"
+              description: "판매여부"
+            m_regidate:
+              type: "string"
+            description:
+              type: "string"
+              description: "메뉴설명"
+            file_id:
+              type: "string"
+            server:
+              type: "string"
+              description: "파일서버 주소"
+            volume:
+              type: "string"
+            path:
+              type: "string"
+            name:
+              type: "string"
+              description: "파일 이름"
+            status:
+              type: "string"
+              description: "파일 상태"
+            saved_time:
+              type: "string"
   StoresRes:
     type: "object"
     properties:
@@ -485,7 +510,7 @@ definitions:
               type: "string"
             m_logo:
               type: "string"
-            registed_date:
+            regidate:
               type: "string"
             
   LoginRes:

@@ -1,7 +1,8 @@
 {
   "name": "menu",
   "version": "0.0.1",
-  "description": "dummy",
+  "description": "dev",
   "dependencies": {
+    "mysql": "^2.13.0"
   }
 }

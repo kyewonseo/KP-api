@@ -13,7 +13,7 @@ exports.handle = function (event, context, cb) {
 
     pool.getConnection(function (err, connection) {
         connection.query("SELECT s.store_id, s.store, s.s_address, s.s_logo, s.status, " +
-            "m.merchant_id, m.company, m.m_name, m.m_phone, m.m_address, m.m_logo, m.status, m.registed_date FROM user u " +
+            "m.merchant_id, m.company, m.m_name, m.m_phone, m.m_address, m.m_logo, m.status, m.regidate FROM user u " +
             "INNER JOIN account a ON(u.account_id = a.account_id) " +
             "INNER JOIN store s ON(u.store_id = s.store_id) " +
             "INNER JOIN merchant m ON(s.merchant_id = m.merchant_id) " +
@@ -31,14 +31,22 @@ exports.handle = function (event, context, cb) {
 
             connection.release();
 
-            resMsg ["responseStatus"] = "200";
-            resMsg ["responseMsg"] = "success";
-            resMsg ["data"] = rows;
+            if (rows[0] == null || rows[0] == "undefined") {
+                resMsg ["responseStatus"] = "400";
+                resMsg ["responseMsg"] = "rows is null";
+                StoresRes.push(resMsg);
 
-            StoresRes.push(resMsg);
-            console.log('user info : ' + JSON.stringify(StoresRes[0]));
+                context.fail(StoresRes[0]);
+            } else {
+                resMsg ["responseStatus"] = "200";
+                resMsg ["responseMsg"] = "success";
+                resMsg ["data"] = rows;
 
-            context.succeed(StoresRes[0]);
+                StoresRes.push(resMsg);
+                console.log('user info : ' + JSON.stringify(StoresRes[0]));
+
+                context.succeed(StoresRes[0]);
+            }
         });
     });
 };

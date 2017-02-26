@@ -7,18 +7,18 @@ const resMsg = {};
 
 exports.handle = function (event, context, cb) {
     console.log('processing event : %j', event);
-    console.log('processing event account_id: %j', event.params.store_id);
+    console.log('processing event store_id: %j', event.params.store_id);
 
     const pool = db.create();
 
     //TODO: fix me => 실 서버에서 "메뉴"를 나타내는 catalog_name 이 정해질때 바뀔 예정
-    const catalog_name = "illum";
+    const catalog_name = "fugiat";
 
     pool.getConnection(function (err, connection) {
-        connection.query("SELECT c.category_id, c.catalog_name,  " +
-            "sub.sub_category_id, sub.sub_category_name, sub.file_id FROM category c " +
-            "INNER JOIN sub_category sub ON(sub.category_id = c.category_id) " +
-            "WHERE c.store_id = ? and catalog_name = ?", [event.params.store_id, catalog_name], function (err, rows) {
+        connection.query("SELECT c.category_id, c.catalog_name, sub.sub_category_id, sub.sub_category_name, sub.file_id " +
+            "FROM sub_category sub " +
+            "INNER JOIN category c ON (c.category_id = sub.category_id) " +
+            "WHERE c.store_id = ? AND c.catalog_name = ?",[event.params.store_id, catalog_name],function (err, rows) {
 
             if (err) {
 
@@ -32,14 +32,24 @@ exports.handle = function (event, context, cb) {
 
             connection.release();
 
-            resMsg ["responseStatus"] = "200";
-            resMsg ["responseMsg"] = "success";
-            resMsg ["data"] = rows;
+            if (rows[0] == null || rows[0] == "undefined") {
 
-            SubcategoryRes.push(resMsg);
-            console.log('user info : ' + JSON.stringify(SubcategoryRes[0]));
+                resMsg ["responseStatus"] = "400";
+                resMsg ["responseMsg"] = "rows is null";
+                SubcategoryRes.push(resMsg);
 
-            context.succeed(SubcategoryRes[0]);
+                context.fail(SubcategoryRes[0]);
+            } else {
+
+                resMsg ["responseStatus"] = "200";
+                resMsg ["responseMsg"] = "success";
+                resMsg ["data"] = rows;
+
+                SubcategoryRes.push(resMsg);
+                console.log('user info : ' + JSON.stringify(SubcategoryRes[0]));
+
+                context.succeed(SubcategoryRes[0]);
+            }
         });
     });
 };
