@@ -157,6 +157,48 @@ paths:
         httpMethod: "POST"
         contentHandling: "CONVERT_TO_TEXT"
         type: "aws"
+  /menu/menu_option/{menu_id}:
+    get:
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "menu_id"
+        in: "path"
+        required: true
+        type: "string"
+      - name: "Authorization"
+        in: "header"
+        required: true
+        type: "string"
+      tags:
+        - "menu"
+      responses:
+        200:
+          description: "200 response"
+          schema:
+            $ref: "#/definitions/MenuOptionRes"
+      x-amazon-apigateway-integration:
+        responses:
+          default:
+            statusCode: "200"
+        uri: "arn:aws:apigateway:ap-northeast-2:lambda:path/2015-03-31/functions/arn:aws:lambda:ap-northeast-2:539277938309:function:kioskAPI_menu_option/invocations"
+        passthroughBehavior: "when_no_templates"
+        requestTemplates:
+          application/json: "{\n  \"body\" : $input.json('$'),\n  \"headers\": {\n\
+            \    #foreach($header in $input.params().header.keySet())\n    \"$header\"\
+            : \"$util.escapeJavaScript($input.params().header.get($header))\" #if($foreach.hasNext),#end\n\
+            \n    #end\n  },\n  \"method\": \"$context.httpMethod\",\n  \"params\"\
+            : {\n    #foreach($param in $input.params().path.keySet())\n    \"$param\"\
+            : \"$util.escapeJavaScript($input.params().path.get($param))\" #if($foreach.hasNext),#end\n\
+            \n    #end\n  },\n  \"query\": {\n    #foreach($queryParam in $input.params().querystring.keySet())\n\
+            \    \"$queryParam\": \"$util.escapeJavaScript($input.params().querystring.get($queryParam))\"\
+            \ #if($foreach.hasNext),#end\n\n    #end\n  }  \n}"
+        httpMethod: "POST"
+        contentHandling: "CONVERT_TO_TEXT"
+        type: "aws"
+        
   /stores/{account_id}:
     get:
       consumes:
@@ -470,6 +512,53 @@ definitions:
               type: "string"
               description: "파일 상태"
             saved_time:
+              type: "string"
+  MenuOptionRes:
+    type: "object"
+    properties:
+      responseStatus:
+        type: "string"
+        description: "성공여부"
+      responseMsg:
+        type: "string"
+        description: "응답 코드"
+      data:
+        type: "array"
+        items:
+          type: "string"
+          description: "메뉴옵션 리스트"
+          properties:
+            menu_id:
+              type: "string"
+            store_id:
+              type: "string"
+            sub_category_id:
+              type: "string"
+            inventory_id:
+              type: "string"
+            m_item:
+              type: "string"
+              description: "메뉴명"
+            m_type:
+              type: "string"
+              description: "메뉴옵션 타입"
+            price:
+              type: "string"
+            points:
+              type: "string"
+            calory:
+              type: "string"
+            barcode:
+              type: "string"
+            use_YN:
+              type: "string"
+              description: "판매여부"
+            m_regidate:
+              type: "string"
+            description:
+              type: "string"
+              description: "메뉴설명"
+            file_id:
               type: "string"
   StoresRes:
     type: "object"
