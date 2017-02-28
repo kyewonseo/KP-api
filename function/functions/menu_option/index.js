@@ -2,6 +2,8 @@
 
 const mysql = require('mysql');
 const db = require('./db/dbpool.js');
+const StringBuffer = require("stringbuffer");
+const sb = new StringBuffer();
 const MenuOptionRes = [];
 const resMsg = {};
 
@@ -40,14 +42,13 @@ exports.handle = function (event, context, cb) {
             } else {
 
                 console.log("ref_menu_id list : " , data);
-                console.log("ref_menu_id data length : " , data.length);
 
                 for (var i = 0; i < data.length; i++) {
                     pool.getConnection(function(i, err, connection) {
                         connection.query("SELECT * FROM menu WHERE menu_id = ?", [data[i].ref_menu_id], function (err, rows) {
 
-                            console.log("menu rows : ", rows);
-                            MenuOptionRes.push(rows);
+                            console.log("menu option => menu rows : ", rows[0]);
+                            sb.append(rows[0]);
 
                             if (err) {
                                 connection.release();
@@ -61,10 +62,13 @@ exports.handle = function (event, context, cb) {
 
                             if (i <= data.length) {
 
+                                console.log('sb info : ' + sb.buffer);
                                 connection.release();
                                 resMsg ["responseStatus"] = "200";
                                 resMsg ["responseMsg"] = "success";
-                                resMsg ["data"] = MenuOptionRes;
+                                resMsg ["data"] = sb.buffer;
+
+                                MenuOptionRes.push(resMsg);
                                 console.log('user info : ' + JSON.stringify(MenuOptionRes[0]));
                                 context.succeed(MenuOptionRes[0]);
                             }
