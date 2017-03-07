@@ -10,6 +10,9 @@ const resMsg = {};
 exports.handle = function (event, context, cb) {
     console.log('processing event: %j', event.params.menu_id);
 
+    if (sb.index != 0) {
+        sb.index = 0;
+    }
     const pool = db.create();
 
     pool.getConnection(function (err, connection) {
@@ -69,6 +72,7 @@ exports.handle = function (event, context, cb) {
                                 resMsg ["data"] = sb.buffer;
 
                                 MenuOptionRes.push(resMsg);
+
                                 console.log('user info : ' + JSON.stringify(MenuOptionRes[0]));
                                 context.succeed(MenuOptionRes[0]);
                             }

@@ -12,12 +12,8 @@ exports.handle = function (event, context, cb) {
 
     pool.getConnection(function (err, connection) {
 
-        connection.query("SELECT m.menu_id, m.store_id, m.sub_category_id, m.inventory_id, m.m_item, m.m_type, m.price, " +
-            "m.points, m.calory, m.barcode, m.use_YN, m.m_regidate, m.description, m.file_id, " +
-            "f.server, f.volume, f.path, f.name, f.status, f.saved_time " +
-            "FROM menu m " +
-            "INNER JOIN files f ON m.file_id = f.files_id " +
-            "WHERE m.sub_category_id = ?", [event.params.sub_category_id], function (err, rows) {
+        connection.query("SELECT menu_id, store_id, sub_category_id, ingredient_id, m_item, m_type, price, points, calory, barcode, use_YN, m_regidate, description, file_id " +
+            "FROM menu WHERE sub_category_id = ?", [event.params.sub_category_id], function (err, rows) {
 
             if (err) {
 

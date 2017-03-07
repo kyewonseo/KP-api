@@ -28,7 +28,7 @@ exports.handle = function (event, context, cb) {
         card: event.card,
         points: event.points,
         package: event.package,
-        registed_date: event.registed_date
+        registe: event.registe
     };
     console.log("sql query : " + query);
 

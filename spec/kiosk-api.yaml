@@ -415,7 +415,7 @@ definitions:
       package:
         type: "string"
         description: "포장선택 (0,1)"
-      registed_date:
+      registe:
         type: "string"
   NewOrderRes:
     type: "object"
@@ -472,7 +472,7 @@ definitions:
               type: "string"
             sub_category_id:
               type: "string"
-            inventory_id:
+            ingredient_id:
               type: "string"
             m_item:
               type: "string"

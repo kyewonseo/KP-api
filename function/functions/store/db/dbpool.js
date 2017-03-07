@@ -5,7 +5,7 @@ const host            = '175.207.13.212';
 const port            = '3306';
 const user            = 'wallmoo';
 const password        = 'Dostory8520!';
-const database        = 'kiosk';
+const database        = 'kiosk-test';
 
 module.exports =  {
 

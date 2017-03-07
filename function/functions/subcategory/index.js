@@ -10,9 +10,7 @@ exports.handle = function (event, context, cb) {
     console.log('processing event store_id: %j', event.params.store_id);
 
     const pool = db.create();
-
-    //TODO: fix me => 실 서버에서 "메뉴"를 나타내는 catalog_name 이 정해질때 바뀔 예정
-    const catalog_name = "fugiat";
+    const catalog_name = "menu";
 
     pool.getConnection(function (err, connection) {
         connection.query("SELECT c.category_id, c.catalog_name, sub.sub_category_id, sub.sub_category_name, sub.file_id " +
