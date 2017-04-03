@@ -39,43 +39,37 @@ paths:
         passthroughBehavior: "when_no_match"
         httpMethod: "POST"
         type: "http"
-  /orders/new:
+  /orders/add:
     post:
       consumes:
       - "application/json"
       produces:
       - "application/json"
       parameters:
-      - in: "body"
-        name: "Order"
-        required: true
-        schema:
-            $ref: "#/definitions/NewOrderReq"
-      - name: "Authorization"
+      - name: "Content-Type"
         in: "header"
         required: true
         type: "string"
+      - in: "body"
+        name: "AddOrderReq"
+        required: true
+        schema:
+            $ref: "#/definitions/AddOrderReq"
       tags:
         - "orders"
       responses:
         200:
           description: "200 response"
           schema:
-            $ref: "#/definitions/NewOrderRes"
-          headers:
-            Access-Control-Allow-Origin:
-              type: "string"
+            $ref: "#/definitions/AddOrderRes"
       x-amazon-apigateway-integration:
         responses:
           default:
             statusCode: "200"
-            responseParameters:
-              method.response.header.Access-Control-Allow-Origin: "'*'"
-        uri: "arn:aws:apigateway:ap-northeast-2:lambda:path/2015-03-31/functions/arn:aws:lambda:ap-northeast-2:539277938309:function:kioskAPI_order_new/invocations"
+        uri: "http://175.207.13.212:9090/order/add"
         passthroughBehavior: "when_no_match"
         httpMethod: "POST"
-        contentHandling: "CONVERT_TO_TEXT"
-        type: "aws"
+        type: "http"
   /category/list-menu:
     post:
       consumes:
@@ -305,7 +299,7 @@ definitions:
               type: "number"
             package:
               type: "integer"
-            registed_date:
+            regidate:
               type: "string"
             detail:
               type: "array"
@@ -356,65 +350,53 @@ definitions:
                         option_description:
                           type: "string"
                       
-  NewOrderReq:
+  AddOrderReq:
     type: "object"
     properties:
-      order_id:
-        type: "string"
-      store_id:
-        type: "string"
-      machine_id:
+      store_id: 
         type: "string"
       user_id:
         type: "string"
-      amount:
-        type: "string"
-        description: "주문총액"
-      coupon:
-        type: "string"
-      coupon_title:
-        type: "string"
-      discount:
-        type: "string"
-      discount_title:
-        type: "string"
       price:
-        type: "string"
-        description: "결제금액 = 주문총액-쿠폰-할인"
-      add_points:
-        type: "string"
-      order_status:
-        type: "string"
-        description: "주문완료, 주문취소, 환불, null"
-      cook_status:
-        type: "string"
-        description: "처리중, 처리완료"
+        type: "integer"
       paymethod:
         type: "string"
-        description: "현금, 카드, 포인트 (1,0,0), (1,1,1)"
-      user_agent:
-        type: "string"
-        description: "매장, 모바일"
-      cash:
-        type: "string"
-      card:
-        type: "string"
+        description: "현금,카드,포인트(0,1,0)"
       points:
-        type: "string"
-      package:
-        type: "string"
-        description: "포장선택 (0,1)"
-      registe:
-        type: "string"
-  NewOrderRes:
+        type: "integer"
+      detail:
+        type: "array"
+        items:
+          type: "object"
+          properties:
+            meni_id:
+              type: "string"
+            quantity:
+              type: "integer"
+            option:
+              type: "array"
+              items:
+                type: "object"
+                properties:
+                  menu_id:
+                    type: "string"
+                  quantity:
+                    type: "integer"
+                    
+  AddOrderRes:
     type: "object"
     properties:
       responseStatus:
-        type: "string"
+        type: "integer"
         description: "성공유부"
       responseMsg:
         type: "string"
         description: "응답 메시지"
+      data:
+        type: "object"
+        properties:
+          order_id:
+            type: "string"
         
   SubcategoryReq:
     type: "object"
