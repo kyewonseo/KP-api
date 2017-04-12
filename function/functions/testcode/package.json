@@ -1,0 +1,9 @@
+{
+  "name": "testcode",
+  "version": "0.0.1",
+  "description": "dev",
+  "dependencies": {
+    "chai": "^3.5.0",
+    "lambda-tester": "^2.8.1"
+  }
+}

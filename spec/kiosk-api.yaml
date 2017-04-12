@@ -8,7 +8,38 @@ basePath: "/dev"
 schemes:
 - "https"
 paths:
-  /orders/detail:
+  /order/payment-complete:
+    post:
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "Content-Type"
+        in: "header"
+        required: true
+        type: "string"
+      - in: "body"
+        name: "OrderCompleteReq"
+        required: true
+        schema:
+          $ref: "#/definitions/OrderCompleteReq"
+      tags:
+        - "orders"
+      responses:
+        200:
+          description: "200 response"
+          schema:
+            $ref: "#/definitions/OrderCompleteRes"
+      x-amazon-apigateway-integration:
+        responses:
+          default:
+            statusCode: "200"
+        uri: "http://175.207.13.212:9090/order/payment-complete"
+        passthroughBehavior: "when_no_match"
+        httpMethod: "POST"
+        type: "http"
+  /order/detail:
     post:
       consumes:
       - "application/json"
@@ -39,7 +70,7 @@ paths:
         passthroughBehavior: "when_no_match"
         httpMethod: "POST"
         type: "http"
-  /orders/add:
+  /order/add:
     post:
       consumes:
       - "application/json"
@@ -164,7 +195,7 @@ paths:
         httpMethod: "POST"
         type: "http"
         
-  /stores/accountList:
+  /store/accountList:
     post:
       consumes:
       - "application/json"
@@ -240,6 +271,8 @@ definitions:
         type: "integer"
       cnt:
         type: "integer"
+      orderByWith:
+        type: "string"
         
   OrderRes:
     type: "object"
@@ -279,7 +312,7 @@ definitions:
               type: "number"
               description: "결제금액 = 주문총액 - 쿠폰 - 할인"
             add_points:
-              type: "number"
+              type: "integer"
             order_status:
               type: "integer"
               description: "주문완료, 주문취소, 환불 , null"
@@ -296,7 +329,7 @@ definitions:
             card:
               type: "number"
             points:
-              type: "number"
+              type: "integer"
             package:
               type: "integer"
             regidate:
@@ -358,21 +391,21 @@ definitions:
       user_id:
         type: "string"
       price:
-        type: "integer"
+        type: "string"
       paymethod:
         type: "string"
         description: "현금,카드,포인트(0,1,0)"
       points:
-        type: "integer"
+        type: "string"
       detail:
         type: "array"
         items:
           type: "object"
           properties:
-            meni_id:
+            menu_id:
               type: "string"
             quantity:
-              type: "integer"
+              type: "string"
             option:
               type: "array"
               items:
@@ -381,7 +414,7 @@ definitions:
                   menu_id:
                     type: "string"
                   quantity:
-                    type: "integer"
+                    type: "string"
                     
   AddOrderRes:
     type: "object"
@@ -397,6 +430,32 @@ definitions:
         properties:
           order_id:
             type: "string"
+            
+  OrderCompleteReq:
+    type: "object"
+    properties:
+      order_id:
+        type: "string"
+      user_id: 
+        type: "string"
+      store_id:
+        type: "string"
+        
+  OrderCompleteRes:
+    type: "object"
+    properties:
+      responseStatus:
+        type: "integer"
+        description: "성공유부"
+      responseMsg:
+        type: "string"
+        description: "응답 메시지"
+      data:
+        type: "object"
+        properties:
+          order_num:
+            type: "integer"
+   
         
   SubcategoryReq:
     type: "object"

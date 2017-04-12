@@ -7,6 +7,6 @@
     "chai": "^3.5.0"
   },
   "scripts": {
-    "test": "login.js"
+    "test": "./node_modules/.bin/mocha"
   }
 }
