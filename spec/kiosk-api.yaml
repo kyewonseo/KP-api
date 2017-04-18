@@ -8,90 +8,55 @@ basePath: "/dev"
 schemes:
 - "https"
 paths:
-  /orders/{user_id}:
-    get:
+  /account/login:
+    post:
+      tags:
+      - "account"
       consumes:
       - "application/json"
       produces:
       - "application/json"
       parameters:
-      - name: "user_id"
-        in: "path"
-        required: true
-        type: "string"
-      - name: "Authorization"
+      - name: "Content-Type"
         in: "header"
         required: true
         type: "string"
-      tags:
-        - "orders"
-      responses:
-        200:
-          description: "200 response"
-          schema:
-            $ref: "#/definitions/OrderRes"
-      x-amazon-apigateway-integration:
-        responses:
-          default:
-            statusCode: "200"
-        requestTemplates:
-          application/json: "{\"statusCode\": 200}"
-        passthroughBehavior: "when_no_match"
-        type: "mock"
-  /orders/new:
-    post:
-      consumes:
-      - "application/json"
-      produces:
-      - "application/json"
-      parameters:
       - in: "body"
-        name: "Order"
+        name: "LoginReq"
         required: true
         schema:
-            $ref: "#/definitions/NewOrderReq"
-      - name: "Authorization"
-        in: "header"
-        required: true
-        type: "string"
-      tags:
-        - "orders"
+          $ref: "#/definitions/LoginReq"
       responses:
         200:
           description: "200 response"
           schema:
-            $ref: "#/definitions/NewOrderRes"
-          headers:
-            Access-Control-Allow-Origin:
-              type: "string"
+            $ref: "#/definitions/LoginRes"
       x-amazon-apigateway-integration:
         responses:
           default:
             statusCode: "200"
-            responseParameters:
-              method.response.header.Access-Control-Allow-Origin: "'*'"
-        uri: "arn:aws:apigateway:ap-northeast-2:lambda:path/2015-03-31/functions/arn:aws:lambda:ap-northeast-2:539277938309:function:kioskAPI_order_new/invocations"
+        uri: "http://175.207.13.212:9090/account/login"
         passthroughBehavior: "when_no_match"
         httpMethod: "POST"
-        contentHandling: "CONVERT_TO_TEXT"
-        type: "aws"
-  /categories/subcategories/{store_id}:
-    get:
+        type: "http"
+  /category/list-menu:
+    post:
+      tags:
+      - "category"
       consumes:
       - "application/json"
       produces:
       - "application/json"
       parameters:
-      - name: "store_id"
-        in: "path"
-        required: true
-        type: "string"
-      - name: "Authorization"
+      - name: "Content-Type"
         in: "header"
         required: true
         type: "string"
-      tags:
-        - "categories"
+      - in: "body"
+        name: "SubcategoryReq"
+        required: true
+        schema:
+          $ref: "#/definitions/SubcategoryReq"
       responses:
         200:
           description: "200 response"
@@ -101,79 +66,28 @@ paths:
         responses:
           default:
             statusCode: "200"
-        uri: "arn:aws:apigateway:ap-northeast-2:lambda:path/2015-03-31/functions/arn:aws:lambda:ap-northeast-2:539277938309:function:kioskAPI_subcategory/invocations"
-        passthroughBehavior: "when_no_templates"
-        requestTemplates:
-          application/json: "{\n  \"body\" : $input.json('$'),\n  \"headers\": {\n\
-            \    #foreach($header in $input.params().header.keySet())\n    \"$header\"\
-            : \"$util.escapeJavaScript($input.params().header.get($header))\" #if($foreach.hasNext),#end\n\
-            \n    #end\n  },\n  \"method\": \"$context.httpMethod\",\n  \"params\"\
-            : {\n    #foreach($param in $input.params().path.keySet())\n    \"$param\"\
-            : \"$util.escapeJavaScript($input.params().path.get($param))\" #if($foreach.hasNext),#end\n\
-            \n    #end\n  },\n  \"query\": {\n    #foreach($queryParam in $input.params().querystring.keySet())\n\
-            \    \"$queryParam\": \"$util.escapeJavaScript($input.params().querystring.get($queryParam))\"\
-            \ #if($foreach.hasNext),#end\n\n    #end\n  }  \n}"
+        uri: "http://175.207.13.212:9090/category/list-menu"
+        passthroughBehavior: "when_no_match"
         httpMethod: "POST"
-        contentHandling: "CONVERT_TO_TEXT"
-        type: "aws"
-  /menu/{sub_category_id}:
-    get:
+        type: "http"
+  /menu/detail:
+    post:
+      tags:
+      - "menu"
       consumes:
       - "application/json"
       produces:
       - "application/json"
       parameters:
-      - name: "sub_category_id"
-        in: "path"
-        required: true
-        type: "string"
-      - name: "Authorization"
+      - name: "Content-Type"
         in: "header"
         required: true
         type: "string"
-      tags:
-        - "menu"
-      responses:
-        200:
-          description: "200 response"
-          schema:
-            $ref: "#/definitions/MenuRes"
-      x-amazon-apigateway-integration:
-        responses:
-          default:
-            statusCode: "200"
-        requestTemplates:
-          application/json: "{\n  \"body\" : $input.json('$'),\n  \"headers\": {\n\
-            \    #foreach($header in $input.params().header.keySet())\n    \"$header\"\
-            : \"$util.escapeJavaScript($input.params().header.get($header))\" #if($foreach.hasNext),#end\n\
-            \n    #end\n  },\n  \"method\": \"$context.httpMethod\",\n  \"params\"\
-            : {\n    #foreach($param in $input.params().path.keySet())\n    \"$param\"\
-            : \"$util.escapeJavaScript($input.params().path.get($param))\" #if($foreach.hasNext),#end\n\
-            \n    #end\n  },\n  \"query\": {\n    #foreach($queryParam in $input.params().querystring.keySet())\n\
-            \    \"$queryParam\": \"$util.escapeJavaScript($input.params().querystring.get($queryParam))\"\
-            \ #if($foreach.hasNext),#end\n\n    #end\n  }  \n}"
-        uri: "arn:aws:apigateway:ap-northeast-2:lambda:path/2015-03-31/functions/arn:aws:lambda:ap-northeast-2:539277938309:function:kioskAPI_menu/invocations"
-        passthroughBehavior: "when_no_templates"
-        httpMethod: "POST"
-        contentHandling: "CONVERT_TO_TEXT"
-        type: "aws"
-  /menu/menu_option/{menu_id}:
-    get:
-      consumes:
-      - "application/json"
-      produces:
-      - "application/json"
-      parameters:
-      - name: "menu_id"
-        in: "path"
+      - in: "body"
+        name: "MenuOptionReq"
         required: true
-        type: "string"
-      - name: "Authorization"
-        in: "header"
-        required: true
-        type: "string"
-      tags:
-        - "menu"
+        schema:
+          $ref: "#/definitions/MenuOptionReq"
       responses:
         200:
           description: "200 response"
@@ -183,341 +97,184 @@ paths:
         responses:
           default:
             statusCode: "200"
-        uri: "arn:aws:apigateway:ap-northeast-2:lambda:path/2015-03-31/functions/arn:aws:lambda:ap-northeast-2:539277938309:function:kioskAPI_menu_option/invocations"
-        passthroughBehavior: "when_no_templates"
-        requestTemplates:
-          application/json: "{\n  \"body\" : $input.json('$'),\n  \"headers\": {\n\
-            \    #foreach($header in $input.params().header.keySet())\n    \"$header\"\
-            : \"$util.escapeJavaScript($input.params().header.get($header))\" #if($foreach.hasNext),#end\n\
-            \n    #end\n  },\n  \"method\": \"$context.httpMethod\",\n  \"params\"\
-            : {\n    #foreach($param in $input.params().path.keySet())\n    \"$param\"\
-            : \"$util.escapeJavaScript($input.params().path.get($param))\" #if($foreach.hasNext),#end\n\
-            \n    #end\n  },\n  \"query\": {\n    #foreach($queryParam in $input.params().querystring.keySet())\n\
-            \    \"$queryParam\": \"$util.escapeJavaScript($input.params().querystring.get($queryParam))\"\
-            \ #if($foreach.hasNext),#end\n\n    #end\n  }  \n}"
+        uri: "http://175.207.13.212:9090/menu/detail"
+        passthroughBehavior: "when_no_match"
         httpMethod: "POST"
-        contentHandling: "CONVERT_TO_TEXT"
-        type: "aws"
-        
-  /stores/{account_id}:
-    get:
+        type: "http"
+  /menu/list:
+    post:
+      tags:
+      - "menu"
       consumes:
       - "application/json"
       produces:
       - "application/json"
       parameters:
-      - name: "account_id"
-        in: "path"
-        required: true
-        type: "string"
-      - name: "Authorization"
+      - name: "Content-Type"
         in: "header"
         required: true
         type: "string"
+      - in: "body"
+        name: "MenuReq"
+        required: true
+        schema:
+          $ref: "#/definitions/MenuReq"
+      responses:
+        200:
+          description: "200 response"
+          schema:
+            $ref: "#/definitions/MenuRes"
+      x-amazon-apigateway-integration:
+        responses:
+          default:
+            statusCode: "200"
+        uri: "http://175.207.13.212:9090/menu/list"
+        passthroughBehavior: "when_no_match"
+        httpMethod: "POST"
+        type: "http"
+  /order/add:
+    post:
       tags:
-        - "stores"
+      - "order"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "Content-Type"
+        in: "header"
+        required: true
+        type: "string"
+      - in: "body"
+        name: "AddOrderReq"
+        required: true
+        schema:
+          $ref: "#/definitions/AddOrderReq"
+      responses:
+        200:
+          description: "200 response"
+          schema:
+            $ref: "#/definitions/AddOrderRes"
+      x-amazon-apigateway-integration:
+        responses:
+          default:
+            statusCode: "200"
+        uri: "http://175.207.13.212:9090/order/add"
+        passthroughBehavior: "when_no_match"
+        httpMethod: "POST"
+        type: "http"
+  /order/payment-complete:
+    post:
+      tags:
+      - "order"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "Content-Type"
+        in: "header"
+        required: true
+        type: "string"
+      - in: "body"
+        name: "OrderCompleteReq"
+        required: true
+        schema:
+          $ref: "#/definitions/OrderCompleteReq"
+      responses:
+        200:
+          description: "200 response"
+          schema:
+            $ref: "#/definitions/OrderCompleteRes"
+      x-amazon-apigateway-integration:
+        responses:
+          default:
+            statusCode: "200"
+        uri: "http://175.207.13.212:9090/order/payment-complete"
+        passthroughBehavior: "when_no_match"
+        httpMethod: "POST"
+        type: "http"
+  /order/payment-list:
+    post:
+      tags:
+      - "order"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "Content-Type"
+        in: "header"
+        required: true
+        type: "string"
+      - in: "body"
+        name: "OrderReq"
+        required: true
+        schema:
+          $ref: "#/definitions/OrderReq"
+      responses:
+        200:
+          description: "200 response"
+          schema:
+            $ref: "#/definitions/OrderRes"
+      x-amazon-apigateway-integration:
+        responses:
+          default:
+            statusCode: "200"
+        uri: "http://175.207.13.212:9090/order/payment-list"
+        passthroughBehavior: "when_no_match"
+        httpMethod: "POST"
+        type: "http"
+  /store/accountList:
+    post:
+      tags:
+      - "store"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "Content-Type"
+        in: "header"
+        required: true
+        type: "string"
+      - in: "body"
+        name: "StoresReq"
+        required: true
+        schema:
+          $ref: "#/definitions/StoresReq"
       responses:
         200:
           description: "200 response"
           schema:
             $ref: "#/definitions/StoresRes"
-          headers:
-            Access-Control-Allow-Origin:
-              type: "string"
       x-amazon-apigateway-integration:
         responses:
           default:
             statusCode: "200"
-            responseParameters:
-              method.response.header.Access-Control-Allow-Origin: "'*'"
-        requestTemplates:
-          application/json: "{\n  \"body\" : $input.json('$'),\n  \"headers\": {\n\
-            \    #foreach($header in $input.params().header.keySet())\n    \"$header\"\
-            : \"$util.escapeJavaScript($input.params().header.get($header))\" #if($foreach.hasNext),#end\n\
-            \n    #end\n  },\n  \"method\": \"$context.httpMethod\",\n  \"params\"\
-            : {\n    #foreach($param in $input.params().path.keySet())\n    \"$param\"\
-            : \"$util.escapeJavaScript($input.params().path.get($param))\" #if($foreach.hasNext),#end\n\
-            \n    #end\n  },\n  \"query\": {\n    #foreach($queryParam in $input.params().querystring.keySet())\n\
-            \    \"$queryParam\": \"$util.escapeJavaScript($input.params().querystring.get($queryParam))\"\
-            \ #if($foreach.hasNext),#end\n\n    #end\n  }  \n}"
-        uri: "arn:aws:apigateway:ap-northeast-2:lambda:path/2015-03-31/functions/arn:aws:lambda:ap-northeast-2:539277938309:function:kioskAPI_store/invocations"
-        passthroughBehavior: "when_no_templates"
-        httpMethod: "POST"
-        contentHandling: "CONVERT_TO_TEXT"
-        type: "aws"
-  /users/login:
-    post:
-      consumes:
-      - "application/json"
-      produces:
-      - "application/json"
-      parameters:
-      - name: "Authorization"
-        in: "header"
-        required: true
-        type: "string"
-      - in: "body"
-        name: "LoginReq"
-        required: true
-        schema:
-          $ref: "#/definitions/LoginReq"
-      tags:
-       - "users"
-      responses:
-        200:
-          description: "200 response"
-          schema:
-            $ref: "#/definitions/LoginRes"
-          headers:
-            Access-Control-Allow-Origin:
-              type: "string"
-      x-amazon-apigateway-integration:
-        responses:
-          default:
-            statusCode: "200"
-            responseParameters:
-              method.response.header.Access-Control-Allow-Origin: "'*'"
-        uri: "arn:aws:apigateway:ap-northeast-2:lambda:path/2015-03-31/functions/arn:aws:lambda:ap-northeast-2:539277938309:function:kioskAPI_login/invocations"
+        uri: "http://175.207.13.212:9090/store/accountList"
         passthroughBehavior: "when_no_match"
         httpMethod: "POST"
-        contentHandling: "CONVERT_TO_TEXT"
-        type: "aws"
+        type: "http"
 definitions:
-  OrderRes:
+  MenuReq:
     type: "object"
     properties:
-      responseStatus:
-        type: "string"
-        description: "성공여부"
-      responseMsg:
-        type: "string"
-        description: "에러 코드"
-      orders:
-        type: "array"
-        description: "주문 정보 리스트"
-        items:
-          type: "object"
-          properties:
-            sid:
-              type: "string"
-              description: "매장번호"
-            m_no:
-              type: "string"
-              description: "상점번호"
-            user_id:
-              type: "string"
-              description: "회사명"
-            amount:
-              type: "string"
-              description: "점장 정보"
-            coupon:
-              type: "string"
-              description: "매장 주소"
-            coupon_title:
-              type: "string"
-              description: "이미지"
-            discount:
-              type: "string"
-            discount_title:
-              type: "string"
-            price:
-              type: "string"
-              description: "결제금액 = 주문총액 - 쿠폰 - 할인"
-            add_points:
-              type: "string"
-            order_status:
-              type: "string"
-              description: "주문완료, 주문취소, 환불 , null"
-            cook_status:
-              type: "string"
-              description: "처리중, 처리완료"
-            paymethod:
-              type: "string"
-              description: "현금,카드,포인트(1,0,0)"
-            user_agent:
-              type: "string"
-            cash:
-              type: "string"
-            card:
-              type: "string"
-            points:
-              type: "string"
-            package:
-              type: "string"
-            registed_date:
-              type: "string"
-            order_detail:
-              type: "array"
-              description: "주문 상세"
-              items:
-                type: "object"
-                properties:
-                  order_detail_idx:
-                    type: "string"
-                  order_idx:
-                    type: "string"
-                  menu_idx:
-                    type: "string"
-                  menu_option_idx:
-                    type: "string"
-                    description: "0:메인 메뉴, / 1:옵션 메뉴"
-                  menu_name:
-                    type: "string"
-                  quantity:
-                    type: "string"
-                  price:
-                    type: "string"
-  NewOrderReq:
-    type: "object"
-    properties:
-      order_id:
-        type: "string"
       store_id:
         type: "string"
-      machine_id:
+      sub_category_id:
         type: "string"
-      user_id:
+      orderBy:
         type: "string"
-      amount:
-        type: "string"
-        description: "주문총액"
-      coupon:
-        type: "string"
-      coupon_title:
-        type: "string"
-      discount:
-        type: "string"
-      discount_title:
-        type: "string"
-      price:
-        type: "string"
-        description: "결제금액 = 주문총액-쿠폰-할인"
-      add_points:
-        type: "string"
-      order_status:
-        type: "string"
-        description: "주문완료, 주문취소, 환불, null"
-      cook_status:
-        type: "string"
-        description: "처리중, 처리완료"
-      paymethod:
-        type: "string"
-        description: "현금, 카드, 포인트 (1,0,0), (1,1,1)"
-      user_agent:
-        type: "string"
-        description: "매장, 모바일"
-      cash:
-        type: "string"
-      card:
-        type: "string"
-      points:
-        type: "string"
-      package:
-        type: "string"
-        description: "포장선택 (0,1)"
-      registe:
-        type: "string"
-  NewOrderRes:
-    type: "object"
-    properties:
-      responseStatus:
-        type: "string"
-        description: "성공유부"
-      responseMsg:
-        type: "string"
-        description: "응답 메시지"
-  SubcategoryRes:
-    type: "object"
-    properties:
-      responseStatus:
-        type: "string"
-        description: "성공여부"
-      responseMsg:
-        type: "string"
-        description: "응답 코드"
-      data:
-        type: "array"
-        description: "서브 카테고리"
-        items:
-          type: "string"
-          properties:
-            category_id:
-              type: "string"
-            catalog_name:
-              type: "string"
-            sub_category_id:
-              type: "string"
-            sub_category_name:
-              type: "string"
-            file_id:
-              type: "string"
-  MenuRes:
-    type: "object"
-    properties:
-      responseStatus:
-        type: "string"
-        description: "성공여부"
-      responseMsg:
-        type: "string"
-        description: "응답 코드"
-      data:
-        type: "array"
-        description: "메뉴 리스트"
-        items:
-          type: "string"
-          properties:
-            menu_id:
-              type: "string"
-            store_id:
-              type: "string"
-            sub_category_id:
-              type: "string"
-            ingredient_id:
-              type: "string"
-            m_item:
-              type: "string"
-              description: "메뉴명"
-            m_type:
-              type: "string"
-              description: "메뉴옵션 타입"
-            price:
-              type: "string"
-            points:
-              type: "string"
-            calory:
-              type: "string"
-            barcode:
-              type: "string"
-            use_YN:
-              type: "string"
-              description: "판매여부"
-            m_regidate:
-              type: "string"
-            description:
-              type: "string"
-              description: "메뉴설명"
-            file_id:
-              type: "string"
-            server:
-              type: "string"
-              description: "파일서버 주소"
-            volume:
-              type: "string"
-            path:
-              type: "string"
-            name:
-              type: "string"
-              description: "파일 이름"
-            status:
-              type: "string"
-              description: "파일 상태"
-            saved_time:
-              type: "string"
+      startNo:
+        type: "integer"
+      cnt:
+        type: "integer"
   MenuOptionRes:
     type: "object"
     properties:
       responseStatus:
-        type: "string"
+        type: "integer"
         description: "성공여부"
       responseMsg:
         type: "string"
@@ -525,8 +282,7 @@ definitions:
       data:
         type: "array"
         items:
-          type: "string"
-          description: "메뉴옵션 리스트"
+          type: "object"
           properties:
             menu_id:
               type: "string"
@@ -540,73 +296,223 @@ definitions:
               type: "string"
               description: "메뉴명"
             m_type:
-              type: "string"
+              type: "integer"
               description: "메뉴옵션 타입"
             price:
-              type: "string"
+              type: "number"
             points:
-              type: "string"
+              type: "integer"
             calory:
-              type: "string"
+              type: "integer"
             barcode:
-              type: "string"
-            use_YN:
-              type: "string"
-              description: "판매여부"
-            m_regidate:
               type: "string"
             description:
               type: "string"
               description: "메뉴설명"
             file_id:
               type: "string"
+            options:
+              type: "array"
+              items:
+                type: "object"
+                properties:
+                  category_id:
+                    type: "string"
+                  category_name:
+                    type: "string"
+                  option_type:
+                    type: "integer"
+                  data:
+                    type: "array"
+                    items:
+                      type: "object"
+                      properties:
+                        id:
+                          type: "string"
+                        option:
+                          type: "string"
+                        price:
+                          type: "number"
+  MenuOptionReq:
+    type: "object"
+    properties:
+      store_id:
+        type: "string"
+      menu_id:
+        type: "string"
+      orderBy:
+        type: "string"
+      startNo:
+        type: "integer"
+      cnt:
+        type: "integer"
+  SubcategoryReq:
+    type: "object"
+    properties:
+      store_id:
+        type: "string"
+      orderBy:
+        type: "string"
+      startNo:
+        type: "integer"
+      cnt:
+        type: "integer"
+  StoresReq:
+    type: "object"
+    properties:
+      account_id:
+        type: "string"
+      orderBy:
+        type: "string"
+      startNo:
+        type: "integer"
+      cnt:
+        type: "integer"
+  SubcategoryRes:
+    type: "object"
+    properties:
+      responseStatus:
+        type: "integer"
+        description: "성공여부"
+      responseMsg:
+        type: "string"
+        description: "응답 코드"
+      data:
+        type: "array"
+        items:
+          type: "object"
+          properties:
+            sub_category_id:
+              type: "string"
+            sub_category_name:
+              type: "string"
+            file_id:
+              type: "string"
+  OrderCompleteRes:
+    type: "object"
+    properties:
+      responseStatus:
+        type: "integer"
+        description: "성공유부"
+      responseMsg:
+        type: "string"
+        description: "응답 메시지"
+      data:
+        type: "object"
+        properties:
+          order_num:
+            type: "integer"
   StoresRes:
     type: "object"
     properties:
       responseStatus:
-        type: "string"
+        type: "integer"
         description: "성공여부"
       responseMsg:
         type: "string"
         description: "에러 코드"
       data:
         type: "array"
-        description: "스토어 정보 리스트"
         items:
           type: "object"
           properties:
             store_id:
               type: "string"
               description: "매장번호"
+            user_id:
+              type: "string"
             store:
               type: "string"
               description: "회사명"
+            u_points:
+              type: "integer"
+              description: "스토어별 point"
+            u_status:
+              type: "integer"
+            u_level:
+              type: "string"
             s_address:
               type: "string"
             s_logo:
               type: "string"
-            status:
+            s_tax:
+              type: "number"
+  AddOrderReq:
+    type: "object"
+    properties:
+      store_id:
+        type: "string"
+      user_id:
+        type: "string"
+      price:
+        type: "string"
+      paymethod:
+        type: "string"
+        description: "현금,카드,포인트(0,1,0)"
+      points:
+        type: "string"
+      detail:
+        type: "array"
+        items:
+          type: "object"
+          properties:
+            menu_id:
               type: "string"
-            merchant_id:
+            quantity:
               type: "string"
-            company:
-              type: "string"
-            m_name:
-              type: "string"
-            m_phone:
-              type: "string"
-            m_address:
-              type: "string"
-            m_logo:
-              type: "string"
-            regidate:
-              type: "string"
-            
+            option:
+              type: "array"
+              items:
+                type: "object"
+                properties:
+                  menu_id:
+                    type: "string"
+                  quantity:
+                    type: "string"
+  OrderCompleteReq:
+    type: "object"
+    properties:
+      order_id:
+        type: "string"
+      user_id:
+        type: "string"
+      store_id:
+        type: "string"
+      amount:
+        type: "string"
+      tax:
+        type: "string"
+      price:
+        type: "string"
+      cash:
+        type: "string"
+        description: "현금으로 계산한 가격"
+      card:
+        type: "string"
+        description: "카드로 계산한 가격"
+      points:
+        type: "string"
+        description: "포인트로 계산한 가격"
+      
+  AddOrderRes:
+    type: "object"
+    properties:
+      responseStatus:
+        type: "integer"
+        description: "성공유부"
+      responseMsg:
+        type: "string"
+        description: "응답 메시지"
+      data:
+        type: "object"
+        properties:
+          order_id:
+            type: "string"
   LoginRes:
     type: "object"
     properties:
       responseStatus:
-        type: "string"
+        type: "integer"
         description: "성공유부"
       responseMsg:
         type: "string"
@@ -622,30 +528,182 @@ definitions:
               type: "string"
             phone:
               type: "string"
-            token:
-              type: "string"
             status:
+              type: "integer"
+  MenuRes:
+    type: "object"
+    properties:
+      responseStatus:
+        type: "integer"
+        description: "성공여부"
+      responseMsg:
+        type: "string"
+        description: "응답 코드"
+      data:
+        type: "array"
+        items:
+          type: "object"
+          properties:
+            menu_id:
               type: "string"
-            regidate:
+            sub_category_id:
               type: "string"
-            user_id:
+            m_item:
               type: "string"
-            store_id:
+              description: "메뉴명"
+            m_type:
+              type: "integer"
+              description: "메뉴옵션 타입"
+            price:
+              type: "number"
+            points:
+              type: "integer"
+            calory:
+              type: "integer"
+            barcode:
               type: "string"
-            u_points:
+            use_YN:
               type: "string"
-            u_status:
+              description: "판매여부"
+            m_regidate:
               type: "string"
-            u_level:
+            description:
               type: "string"
-            usercol:
+              description: "메뉴설명"
+            file_id:
               type: "string"
+  OrderReq:
+    type: "object"
+    properties:
+      user_id:
+        type: "string"
+      store_id:
+        type: "string"
+      orderBy:
+        type: "string"
+      startNo:
+        type: "integer"
+      cnt:
+        type: "integer"
+      orderByWith:
+        type: "string"
   LoginReq:
     type: "object"
     properties:
-      login_id:
+      account_id:
         type: "string"
         description: "login id"
-      login_passwd:
+      passwd:
         type: "string"
         description: "login passward"
+      push_token:
+        type: "string"
+        description: "firebase token"
+  OrderRes:
+    type: "object"
+    properties:
+      responseStatus:
+        type: "integer"
+        description: "성공여부"
+      responseMsg:
+        type: "string"
+        description: "에러 코드"
+      data:
+        type: "array"
+        items:
+          type: "object"
+          properties:
+            order_id:
+              type: "string"
+            order_num:
+              type: "integer"
+            store_id:
+              type: "string"
+            machine_id:
+              type: "string"
+            user_id:
+              type: "string"
+            amount:
+              type: "number"
+            coupon:
+              type: "number"
+            coupon_title:
+              type: "string"
+            discount:
+              type: "number"
+            discount_title:
+              type: "string"
+            price:
+              type: "number"
+              description: "결제금액 = 주문총액 - 쿠폰 - 할인"
+            add_points:
+              type: "integer"
+            order_status:
+              type: "integer"
+              description: "주문완료, 주문취소, 환불 , null"
+            cook_status:
+              type: "integer"
+              description: "처리중, 처리완료"
+            paymethod:
+              type: "string"
+              description: "현금,카드,포인트(1,0,0)"
+            user_agent:
+              type: "integer"
+            cash:
+              type: "number"
+            card:
+              type: "number"
+            points:
+              type: "integer"
+            package:
+              type: "integer"
+            regidate:
+              type: "string"
+            detail:
+              type: "array"
+              items:
+                type: "object"
+                properties:
+                  order_detail_id:
+                    type: "string"
+                  detail_menu_id:
+                    type: "string"
+                  detail_quantity:
+                    type: "integer"
+                  detail_file_id:
+                    type: "string"
+                  detail_menu_name:
+                    type: "string"
+                  detail_price:
+                    type: "number"
+                  detail_calory:
+                    type: "integer"
+                  detail_points:
+                    type: "integer"
+                  detail_description:
+                    type: "string"
+                  option:
+                    type: "array"
+                    items:
+                      type: "object"
+                      properties:
+                        order_option_id:
+                          type: "string"
+                        option_menu_id:
+                          type: "string"
+                        option_quantity:
+                          type: "integer"
+                        option_file_id:
+                          type: "string"
+                        option_menu_name:
+                          type: "string"
+                        option_price:
+                          type: "number"
+                        option_calory:
+                          type: "integer"
+                        option_points:
+                          type: "integer"
+                        option_op:
+                          type: "integer"
+                        option_description:
+                          type: "string"
