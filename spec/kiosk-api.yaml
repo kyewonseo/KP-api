@@ -1,709 +1,724 @@
----
-swagger: "2.0"
+swagger: '2.0'
 info:
-  version: "0.0.1"
-  title: "Kiosk API"
-host: "zf1oua0eo3.execute-api.ap-northeast-2.amazonaws.com"
-basePath: "/dev"
+  version: 0.0.1
+  title: Kiosk API
+host: zf1oua0eo3.execute-api.ap-northeast-2.amazonaws.com
+basePath: /dev
 schemes:
-- "https"
+  - https
 paths:
   /account/login:
     post:
       tags:
-      - "account"
+        - account
       consumes:
-      - "application/json"
+        - application/json
       produces:
-      - "application/json"
+        - application/json
       parameters:
-      - name: "Content-Type"
-        in: "header"
-        required: true
-        type: "string"
-      - in: "body"
-        name: "LoginReq"
-        required: true
-        schema:
-          $ref: "#/definitions/LoginReq"
-      responses:
-        200:
-          description: "200 response"
+        - name: Content-Type
+          in: header
+          required: true
+          type: string
+        - in: body
+          name: LoginReq
+          required: true
           schema:
-            $ref: "#/definitions/LoginRes"
+            $ref: '#/definitions/LoginReq'
+      responses:
+        '200':
+          description: 200 response
+          schema:
+            $ref: '#/definitions/LoginRes'
       x-amazon-apigateway-integration:
         responses:
           default:
-            statusCode: "200"
-        uri: "http://175.207.13.212:9090/account/login"
-        passthroughBehavior: "when_no_match"
-        httpMethod: "POST"
-        type: "http"
+            statusCode: '200'
+        uri: 'http://175.207.13.212:8080/account/login'
+        passthroughBehavior: when_no_match
+        httpMethod: POST
+        type: http
   /category/list-menu:
     post:
       tags:
-      - "category"
+        - category
       consumes:
-      - "application/json"
+        - application/json
       produces:
-      - "application/json"
+        - application/json
       parameters:
-      - name: "Content-Type"
-        in: "header"
-        required: true
-        type: "string"
-      - in: "body"
-        name: "SubcategoryReq"
-        required: true
-        schema:
-          $ref: "#/definitions/SubcategoryReq"
-      responses:
-        200:
-          description: "200 response"
+        - name: Content-Type
+          in: header
+          required: true
+          type: string
+        - in: body
+          name: SubcategoryReq
+          required: true
           schema:
-            $ref: "#/definitions/SubcategoryRes"
+            $ref: '#/definitions/SubcategoryReq'
+      responses:
+        '200':
+          description: 200 response
+          schema:
+            $ref: '#/definitions/SubcategoryRes'
       x-amazon-apigateway-integration:
         responses:
           default:
-            statusCode: "200"
-        uri: "http://175.207.13.212:9090/category/list-menu"
-        passthroughBehavior: "when_no_match"
-        httpMethod: "POST"
-        type: "http"
+            statusCode: '200'
+        uri: 'http://175.207.13.212:8080/category/list-menu'
+        passthroughBehavior: when_no_match
+        httpMethod: POST
+        type: http
   /menu/detail:
     post:
       tags:
-      - "menu"
+        - menu
       consumes:
-      - "application/json"
+        - application/json
       produces:
-      - "application/json"
+        - application/json
       parameters:
-      - name: "Content-Type"
-        in: "header"
-        required: true
-        type: "string"
-      - in: "body"
-        name: "MenuOptionReq"
-        required: true
-        schema:
-          $ref: "#/definitions/MenuOptionReq"
-      responses:
-        200:
-          description: "200 response"
+        - name: Content-Type
+          in: header
+          required: true
+          type: string
+        - in: body
+          name: MenuOptionReq
+          required: true
           schema:
-            $ref: "#/definitions/MenuOptionRes"
+            $ref: '#/definitions/MenuOptionReq'
+      responses:
+        '200':
+          description: 200 response
+          schema:
+            $ref: '#/definitions/MenuOptionRes'
       x-amazon-apigateway-integration:
         responses:
           default:
-            statusCode: "200"
-        uri: "http://175.207.13.212:9090/menu/detail"
-        passthroughBehavior: "when_no_match"
-        httpMethod: "POST"
-        type: "http"
+            statusCode: '200'
+        uri: 'http://175.207.13.212:8080/menu/detail'
+        passthroughBehavior: when_no_match
+        httpMethod: POST
+        type: http
   /menu/list:
     post:
       tags:
-      - "menu"
+        - menu
       consumes:
-      - "application/json"
+        - application/json
       produces:
-      - "application/json"
+        - application/json
       parameters:
-      - name: "Content-Type"
-        in: "header"
-        required: true
-        type: "string"
-      - in: "body"
-        name: "MenuReq"
-        required: true
-        schema:
-          $ref: "#/definitions/MenuReq"
-      responses:
-        200:
-          description: "200 response"
+        - name: Content-Type
+          in: header
+          required: true
+          type: string
+        - in: body
+          name: MenuReq
+          required: true
           schema:
-            $ref: "#/definitions/MenuRes"
+            $ref: '#/definitions/MenuReq'
+      responses:
+        '200':
+          description: 200 response
+          schema:
+            $ref: '#/definitions/MenuRes'
       x-amazon-apigateway-integration:
         responses:
           default:
-            statusCode: "200"
-        uri: "http://175.207.13.212:9090/menu/list"
-        passthroughBehavior: "when_no_match"
-        httpMethod: "POST"
-        type: "http"
+            statusCode: '200'
+        uri: 'http://175.207.13.212:8080/menu/list'
+        passthroughBehavior: when_no_match
+        httpMethod: POST
+        type: http
   /order/add:
     post:
       tags:
-      - "order"
+        - order
       consumes:
-      - "application/json"
+        - application/json
       produces:
-      - "application/json"
+        - application/json
       parameters:
-      - name: "Content-Type"
-        in: "header"
-        required: true
-        type: "string"
-      - in: "body"
-        name: "AddOrderReq"
-        required: true
-        schema:
-          $ref: "#/definitions/AddOrderReq"
-      responses:
-        200:
-          description: "200 response"
+        - name: Content-Type
+          in: header
+          required: true
+          type: string
+        - in: body
+          name: AddOrderReq
+          required: true
           schema:
-            $ref: "#/definitions/AddOrderRes"
+            $ref: '#/definitions/AddOrderReq'
+      responses:
+        '200':
+          description: 200 response
+          schema:
+            $ref: '#/definitions/AddOrderRes'
       x-amazon-apigateway-integration:
         responses:
           default:
-            statusCode: "200"
-        uri: "http://175.207.13.212:9090/order/add"
-        passthroughBehavior: "when_no_match"
-        httpMethod: "POST"
-        type: "http"
+            statusCode: '200'
+        uri: 'http://175.207.13.212:8080/order/add'
+        passthroughBehavior: when_no_match
+        httpMethod: POST
+        type: http
   /order/payment-complete:
     post:
       tags:
-      - "order"
+        - order
       consumes:
-      - "application/json"
+        - application/json
       produces:
-      - "application/json"
+        - application/json
       parameters:
-      - name: "Content-Type"
-        in: "header"
-        required: true
-        type: "string"
-      - in: "body"
-        name: "OrderCompleteReq"
-        required: true
-        schema:
-          $ref: "#/definitions/OrderCompleteReq"
-      responses:
-        200:
-          description: "200 response"
+        - name: Content-Type
+          in: header
+          required: true
+          type: string
+        - in: body
+          name: OrderCompleteReq
+          required: true
           schema:
-            $ref: "#/definitions/OrderCompleteRes"
+            $ref: '#/definitions/OrderCompleteReq'
+      responses:
+        '200':
+          description: 200 response
+          schema:
+            $ref: '#/definitions/OrderCompleteRes'
       x-amazon-apigateway-integration:
         responses:
           default:
-            statusCode: "200"
-        uri: "http://175.207.13.212:9090/order/payment-complete"
-        passthroughBehavior: "when_no_match"
-        httpMethod: "POST"
-        type: "http"
+            statusCode: '200'
+        uri: 'http://175.207.13.212:8080/order/payment-complete'
+        passthroughBehavior: when_no_match
+        httpMethod: POST
+        type: http
   /order/payment-list:
     post:
       tags:
-      - "order"
+        - order
       consumes:
-      - "application/json"
+        - application/json
       produces:
-      - "application/json"
+        - application/json
       parameters:
-      - name: "Content-Type"
-        in: "header"
-        required: true
-        type: "string"
-      - in: "body"
-        name: "OrderReq"
-        required: true
-        schema:
-          $ref: "#/definitions/OrderReq"
-      responses:
-        200:
-          description: "200 response"
+        - name: Content-Type
+          in: header
+          required: true
+          type: string
+        - in: body
+          name: OrderReq
+          required: true
           schema:
-            $ref: "#/definitions/OrderRes"
+            $ref: '#/definitions/OrderReq'
+      responses:
+        '200':
+          description: 200 response
+          schema:
+            $ref: '#/definitions/OrderRes'
       x-amazon-apigateway-integration:
         responses:
           default:
-            statusCode: "200"
-        uri: "http://175.207.13.212:9090/order/payment-list"
-        passthroughBehavior: "when_no_match"
-        httpMethod: "POST"
-        type: "http"
+            statusCode: '200'
+        uri: 'http://175.207.13.212:8080/order/payment-list'
+        passthroughBehavior: when_no_match
+        httpMethod: POST
+        type: http
   /store/accountList:
     post:
       tags:
-      - "store"
+        - store
       consumes:
-      - "application/json"
+        - application/json
       produces:
-      - "application/json"
+        - application/json
       parameters:
-      - name: "Content-Type"
-        in: "header"
-        required: true
-        type: "string"
-      - in: "body"
-        name: "StoresReq"
-        required: true
-        schema:
-          $ref: "#/definitions/StoresReq"
-      responses:
-        200:
-          description: "200 response"
+        - name: Content-Type
+          in: header
+          required: true
+          type: string
+        - in: body
+          name: StoresReq
+          required: true
           schema:
-            $ref: "#/definitions/StoresRes"
+            $ref: '#/definitions/StoresReq'
+      responses:
+        '200':
+          description: 200 response
+          schema:
+            $ref: '#/definitions/StoresRes'
       x-amazon-apigateway-integration:
         responses:
           default:
-            statusCode: "200"
-        uri: "http://175.207.13.212:9090/store/accountList"
-        passthroughBehavior: "when_no_match"
-        httpMethod: "POST"
-        type: "http"
+            statusCode: '200'
+        uri: 'http://175.207.13.212:8080/store/accountList'
+        passthroughBehavior: when_no_match
+        httpMethod: POST
+        type: http
 definitions:
   MenuReq:
-    type: "object"
+    type: object
     properties:
       store_id:
-        type: "string"
+        type: string
       sub_category_id:
-        type: "string"
+        type: string
       orderBy:
-        type: "string"
+        type: string
       startNo:
-        type: "integer"
+        type: integer
       cnt:
-        type: "integer"
+        type: integer
   MenuOptionRes:
-    type: "object"
+    type: object
     properties:
       responseStatus:
-        type: "integer"
-        description: "성공여부"
+        type: integer
+        description: 성공여부
       responseMsg:
-        type: "string"
-        description: "응답 코드"
+        type: string
+        description: 응답 코드
       data:
-        type: "array"
+        type: array
         items:
-          type: "object"
+          type: object
           properties:
             menu_id:
-              type: "string"
+              type: string
             store_id:
-              type: "string"
+              type: string
             sub_category_id:
-              type: "string"
+              type: string
             inventory_id:
-              type: "string"
+              type: string
             m_item:
-              type: "string"
-              description: "메뉴명"
+              type: string
+              description: 메뉴명
             m_type:
-              type: "integer"
-              description: "메뉴옵션 타입"
+              type: integer
+              description: 메뉴옵션 타입
             price:
-              type: "number"
+              type: number
             points:
-              type: "integer"
+              type: integer
             calory:
-              type: "integer"
+              type: integer
             barcode:
-              type: "string"
+              type: string
             description:
-              type: "string"
-              description: "메뉴설명"
+              type: string
+              description: 메뉴설명
             file_id:
-              type: "string"
+              type: string
             options:
-              type: "array"
+              type: array
               items:
-                type: "object"
+                type: object
                 properties:
                   category_id:
-                    type: "string"
+                    type: string
                   category_name:
-                    type: "string"
+                    type: string
                   option_type:
-                    type: "integer"
+                    type: integer
                   data:
-                    type: "array"
+                    type: array
                     items:
-                      type: "object"
+                      type: object
                       properties:
                         id:
-                          type: "string"
+                          type: string
                         option:
-                          type: "string"
+                          type: string
                         price:
-                          type: "number"
+                          type: number
   MenuOptionReq:
-    type: "object"
+    type: object
     properties:
       store_id:
-        type: "string"
+        type: string
       menu_id:
-        type: "string"
+        type: string
       orderBy:
-        type: "string"
+        type: string
       startNo:
-        type: "integer"
+        type: integer
       cnt:
-        type: "integer"
+        type: integer
   SubcategoryReq:
-    type: "object"
+    type: object
     properties:
       store_id:
-        type: "string"
+        type: string
       orderBy:
-        type: "string"
+        type: string
       startNo:
-        type: "integer"
+        type: integer
       cnt:
-        type: "integer"
+        type: integer
   StoresReq:
-    type: "object"
+    type: object
     properties:
       account_id:
-        type: "string"
+        type: string
       orderBy:
-        type: "string"
+        type: string
       startNo:
-        type: "integer"
+        type: integer
       cnt:
-        type: "integer"
+        type: integer
   SubcategoryRes:
-    type: "object"
+    type: object
     properties:
       responseStatus:
-        type: "integer"
-        description: "성공여부"
+        type: integer
+        description: 성공여부
       responseMsg:
-        type: "string"
-        description: "응답 코드"
+        type: string
+        description: 응답 코드
       data:
-        type: "array"
+        type: array
         items:
-          type: "object"
+          type: object
           properties:
             sub_category_id:
-              type: "string"
+              type: string
             sub_category_name:
-              type: "string"
+              type: string
             file_id:
-              type: "string"
+              type: string
   OrderCompleteRes:
-    type: "object"
+    type: object
     properties:
       responseStatus:
-        type: "integer"
-        description: "성공유부"
+        type: integer
+        description: 성공유부
       responseMsg:
-        type: "string"
-        description: "응답 메시지"
+        type: string
+        description: 응답 메시지
       data:
-        type: "object"
+        type: object
         properties:
           order_num:
-            type: "integer"
+            type: integer
   StoresRes:
-    type: "object"
+    type: object
     properties:
       responseStatus:
-        type: "integer"
-        description: "성공여부"
+        type: integer
+        description: 성공여부
       responseMsg:
-        type: "string"
-        description: "에러 코드"
+        type: string
+        description: 에러 코드
       data:
-        type: "array"
+        type: array
         items:
-          type: "object"
+          type: object
           properties:
             store_id:
-              type: "string"
-              description: "매장번호"
+              type: string
+              description: 매장번호
             user_id:
-              type: "string"
+              type: string
             store:
-              type: "string"
-              description: "회사명"
+              type: string
+              description: 회사명
             u_points:
-              type: "integer"
-              description: "스토어별 point"
+              type: integer
+              description: 스토어별 point
             u_status:
-              type: "integer"
+              type: integer
             u_level:
-              type: "string"
+              type: string
             s_address:
-              type: "string"
+              type: string
             s_logo:
-              type: "string"
+              type: string
             s_tax:
-              type: "number"
+              type: number
+            s_phone:
+              type: string
   AddOrderReq:
-    type: "object"
+    type: object
     properties:
       store_id:
-        type: "string"
+        type: string
       user_id:
-        type: "string"
+        type: string
       price:
-        type: "string"
+        type: string
       paymethod:
-        type: "string"
-        description: "현금,카드,포인트(0,1,0)"
+        type: string
+        description: '현금,카드,포인트(0,1,0)'
       points:
-        type: "string"
+        type: string
+      tax:
+        type: string
       detail:
-        type: "array"
+        type: array
         items:
-          type: "object"
+          type: object
           properties:
             menu_id:
-              type: "string"
+              type: string
             quantity:
-              type: "string"
+              type: string
             option:
-              type: "array"
+              type: array
               items:
-                type: "object"
+                type: object
                 properties:
                   menu_id:
-                    type: "string"
+                    type: string
                   quantity:
-                    type: "string"
+                    type: string
   OrderCompleteReq:
-    type: "object"
+    type: object
     properties:
       order_id:
-        type: "string"
+        type: string
       user_id:
-        type: "string"
+        type: string
       store_id:
-        type: "string"
+        type: string
       amount:
-        type: "string"
+        type: string
       tax:
-        type: "string"
+        type: string
       price:
-        type: "string"
+        type: string
       cash:
-        type: "string"
-        description: "현금으로 계산한 가격"
+        type: string
+        description: 현금으로 계산한 가격
       card:
-        type: "string"
-        description: "카드로 계산한 가격"
+        type: string
+        description: 카드로 계산한 가격
       points:
-        type: "string"
-        description: "포인트로 계산한 가격"
-      
+        type: string
+        description: 포인트로 계산한 가격
   AddOrderRes:
-    type: "object"
+    type: object
     properties:
       responseStatus:
-        type: "integer"
-        description: "성공유부"
+        type: integer
+        description: 성공유부
       responseMsg:
-        type: "string"
-        description: "응답 메시지"
+        type: string
+        description: 응답 메시지
       data:
-        type: "object"
+        type: object
         properties:
           order_id:
-            type: "string"
+            type: string
+          soldOut:
+            type: array
+            items:
+              type: object
+              properties:
+                menu_id:
+                  type: string
+                menu_name:
+                  type: string
   LoginRes:
-    type: "object"
+    type: object
     properties:
       responseStatus:
-        type: "integer"
-        description: "성공유부"
+        type: integer
+        description: 성공유부
       responseMsg:
-        type: "string"
-        description: "응답메시지"
+        type: string
+        description: 응답메시지
       data:
-        type: "array"
+        type: array
         items:
-          type: "object"
+          type: object
           properties:
             account_id:
-              type: "string"
+              type: string
             name:
-              type: "string"
+              type: string
             phone:
-              type: "string"
+              type: string
             status:
-              type: "integer"
+              type: integer
   MenuRes:
-    type: "object"
+    type: object
     properties:
       responseStatus:
-        type: "integer"
-        description: "성공여부"
+        type: integer
+        description: 성공여부
       responseMsg:
-        type: "string"
-        description: "응답 코드"
+        type: string
+        description: 응답 코드
       data:
-        type: "array"
+        type: array
         items:
-          type: "object"
+          type: object
           properties:
             menu_id:
-              type: "string"
+              type: string
             sub_category_id:
-              type: "string"
+              type: string
             m_item:
-              type: "string"
-              description: "메뉴명"
+              type: string
+              description: 메뉴명
             m_type:
-              type: "integer"
-              description: "메뉴옵션 타입"
+              type: integer
+              description: 메뉴옵션 타입
             price:
-              type: "number"
+              type: number
             points:
-              type: "integer"
+              type: integer
             calory:
-              type: "integer"
+              type: integer
             barcode:
-              type: "string"
+              type: string
             use_YN:
-              type: "string"
-              description: "판매여부"
+              type: string
+              description: 판매여부
             m_regidate:
-              type: "string"
+              type: string
             description:
-              type: "string"
-              description: "메뉴설명"
+              type: string
+              description: 메뉴설명
             file_id:
-              type: "string"
+              type: string
   OrderReq:
-    type: "object"
+    type: object
     properties:
       user_id:
-        type: "string"
+        type: string
       store_id:
-        type: "string"
+        type: string
+      order_id:
+        type: string
       orderBy:
-        type: "string"
+        type: string
       startNo:
-        type: "integer"
+        type: integer
       cnt:
-        type: "integer"
+        type: integer
       orderByWith:
-        type: "string"
+        type: string
   LoginReq:
-    type: "object"
+    type: object
     properties:
       account_id:
-        type: "string"
-        description: "login id"
+        type: string
+        description: login id
       passwd:
-        type: "string"
-        description: "login passward"
+        type: string
+        description: login passward
       push_token:
-        type: "string"
-        description: "firebase token"
+        type: string
+        description: firebase token
   OrderRes:
-    type: "object"
+    type: object
     properties:
       responseStatus:
-        type: "integer"
-        description: "성공여부"
+        type: integer
+        description: 성공여부
       responseMsg:
-        type: "string"
-        description: "에러 코드"
+        type: string
+        description: 에러 코드
       data:
-        type: "array"
+        type: array
         items:
-          type: "object"
+          type: object
           properties:
             order_id:
-              type: "string"
+              type: string
             order_num:
-              type: "integer"
+              type: integer
             store_id:
-              type: "string"
+              type: string
             machine_id:
-              type: "string"
+              type: string
             user_id:
-              type: "string"
+              type: string
             amount:
-              type: "number"
+              type: number
             coupon:
-              type: "number"
+              type: number
             coupon_title:
-              type: "string"
+              type: string
             discount:
-              type: "number"
+              type: number
             discount_title:
-              type: "string"
+              type: string
             price:
-              type: "number"
-              description: "결제금액 = 주문총액 - 쿠폰 - 할인"
+              type: number
+              description: 결제금액 = 주문총액 - 쿠폰 - 할인
             add_points:
-              type: "integer"
+              type: integer
             order_status:
-              type: "integer"
-              description: "주문완료, 주문취소, 환불 , null"
+              type: integer
+              description: '주문완료, 주문취소, 환불 , null'
             cook_status:
-              type: "integer"
-              description: "처리중, 처리완료"
+              type: integer
+              description: '처리중, 처리완료'
             paymethod:
-              type: "string"
-              description: "현금,카드,포인트(1,0,0)"
+              type: string
+              description: '현금,카드,포인트(1,0,0)'
             user_agent:
-              type: "integer"
+              type: integer
             cash:
-              type: "number"
+              type: number
             card:
-              type: "number"
+              type: number
             points:
-              type: "integer"
+              type: integer
+            tax:
+              type: number
             package:
-              type: "integer"
+              type: integer
             regidate:
-              type: "string"
+              type: string
             detail:
-              type: "array"
+              type: array
               items:
-                type: "object"
+                type: object
                 properties:
                   order_detail_id:
-                    type: "string"
+                    type: string
                   detail_menu_id:
-                    type: "string"
+                    type: string
                   detail_quantity:
-                    type: "integer"
+                    type: integer
                   detail_file_id:
-                    type: "string"
+                    type: string
                   detail_menu_name:
-                    type: "string"
+                    type: string
                   detail_price:
-                    type: "number"
+                    type: number
                   detail_calory:
-                    type: "integer"
+                    type: integer
                   detail_points:
-                    type: "integer"
+                    type: integer
                   detail_description:
-                    type: "string"
+                    type: string
                   option:
-                    type: "array"
+                    type: array
                     items:
-                      type: "object"
+                      type: object
                       properties:
                         order_option_id:
-                          type: "string"
+                          type: string
                         option_menu_id:
-                          type: "string"
+                          type: string
                         option_quantity:
-                          type: "integer"
+                          type: integer
                         option_file_id:
-                          type: "string"
+                          type: string
                         option_menu_name:
-                          type: "string"
+                          type: string
                         option_price:
-                          type: "number"
+                          type: number
                         option_calory:
-                          type: "integer"
+                          type: integer
                         option_points:
-                          type: "integer"
+                          type: integer
                         option_op:
-                          type: "integer"
+                          type: integer
                         option_description:
-                          type: "string"
+                          type: string
