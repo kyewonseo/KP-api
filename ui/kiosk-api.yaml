@@ -34,7 +34,7 @@ paths:
         responses:
           default:
             statusCode: '200'
-        uri: 'http://175.207.13.212:8080/account/login'
+        uri: 'http://kiosk.dabotop.com:8080/account/login'
         passthroughBehavior: when_no_match
         httpMethod: POST
         type: http
@@ -65,7 +65,7 @@ paths:
         responses:
           default:
             statusCode: '200'
-        uri: 'http://175.207.13.212:8080/category/list-menu'
+        uri: 'http://kiosk.dabotop.com:8080/category/list-menu'
         passthroughBehavior: when_no_match
         httpMethod: POST
         type: http
@@ -96,7 +96,7 @@ paths:
         responses:
           default:
             statusCode: '200'
-        uri: 'http://175.207.13.212:8080/menu/detail'
+        uri: 'http://kiosk.dabotop.com:8080/menu/detail'
         passthroughBehavior: when_no_match
         httpMethod: POST
         type: http
@@ -127,7 +127,7 @@ paths:
         responses:
           default:
             statusCode: '200'
-        uri: 'http://175.207.13.212:8080/menu/list'
+        uri: 'http://kiosk.dabotop.com:8080/menu/list'
         passthroughBehavior: when_no_match
         httpMethod: POST
         type: http
@@ -158,7 +158,7 @@ paths:
         responses:
           default:
             statusCode: '200'
-        uri: 'http://175.207.13.212:8080/order/add'
+        uri: 'http://kiosk.dabotop.com:8080/order/add'
         passthroughBehavior: when_no_match
         httpMethod: POST
         type: http
@@ -189,7 +189,7 @@ paths:
         responses:
           default:
             statusCode: '200'
-        uri: 'http://175.207.13.212:8080/order/payment-complete'
+        uri: 'http://kiosk.dabotop.com:8080/order/payment-complete'
         passthroughBehavior: when_no_match
         httpMethod: POST
         type: http
@@ -220,7 +220,7 @@ paths:
         responses:
           default:
             statusCode: '200'
-        uri: 'http://175.207.13.212:8080/order/payment-list'
+        uri: 'http://kiosk.dabotop.com:8080/order/payment-list'
         passthroughBehavior: when_no_match
         httpMethod: POST
         type: http
@@ -251,7 +251,7 @@ paths:
         responses:
           default:
             statusCode: '200'
-        uri: 'http://175.207.13.212:8080/store/accountList'
+        uri: 'http://kiosk.dabotop.com:8080/store/accountList'
         passthroughBehavior: when_no_match
         httpMethod: POST
         type: http
@@ -361,6 +361,8 @@ definitions:
     properties:
       account_id:
         type: string
+      admin_id:
+        type: string
       orderBy:
         type: string
       startNo:
@@ -437,6 +439,8 @@ definitions:
             s_tax:
               type: number
             s_phone:
+              type: string
+            s_pk:
               type: string
   AddOrderReq:
     type: object
