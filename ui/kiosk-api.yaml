@@ -403,6 +403,8 @@ definitions:
         properties:
           order_num:
             type: integer
+          u_points:
+            type: number
   StoresRes:
     type: object
     properties:
@@ -502,6 +504,9 @@ definitions:
       points:
         type: string
         description: 포인트로 계산한 가격
+      type:
+        type: string
+        description: 포인트전액인지 여부
   AddOrderRes:
     type: object
     properties:
